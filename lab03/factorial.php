@@ -13,7 +13,7 @@
     ?>
     <h1>Web Programming - Lab 3</h1>
     <?php
-    if (isset($_GET["num"])) { // check if form data exists
+    if (isset($_GET["num"]) && is_numeric($_GET["num"])) { // check if form data exists
         $num = $_GET["num"]; // obtain the form data
         if ($num > 0) { // check if $num is a positive number
             if ($num == round($num)) { // check if $num is an integer

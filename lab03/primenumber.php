@@ -26,7 +26,7 @@
     }
     if (isset($_GET["num"])) {
         $num = $_GET["num"];
-        if (is_numeric($num)) {
+        if (is_numeric($num) && $num > 0 && $num == round($num)) {
             is_prime($num)
                 ? print("<p>The number you entered $num is a prime number.</p>")
                 : print("<p>The number you entered $num is not a prime number.</p>");

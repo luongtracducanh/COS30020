@@ -12,7 +12,7 @@
     <h1>Lab03 Task 3 - Prime Number</h1>
     <hr>
     <form action="primenumber.php" method="get">
-        <p>Year: <input type="number" name="num" /></p>
+        <p>Year: <input type="text" name="num" /></p>
         <input type="submit" value="Check for Prime Number" />
     </form>
 </body>

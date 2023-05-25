@@ -12,7 +12,7 @@
     <h1>Lab03 Task 2 - Leap Year</h1>
     <hr>
     <form action="leapyear.php" method="get">
-        <p>Year: <input type="number" name="year" /></p>
+        <p>Year: <input type="text" name="year" /></p>
         <input type="submit" value="Check for Leap Year" />
     </form>
 </body>

@@ -30,13 +30,15 @@
     }
     if (isset($_GET["year"])) {
         $year = $_GET["year"];
-        if (is_numeric($year)) {
+        if (is_numeric($year) && $year > 0 && $year == round($year)) {
             is_leapyear($year)
                 ? print("<p>The year you entered $year is a leap year.</p>")
                 : print("<p>The year you entered $year is not a leap year.</p>");
         } else {
-            echo "<p>Please enter a number.</p>";
+            echo "<p>Please enter a positive integer.</p>";
         }
+    } else {
+        echo "<p>Please enter a year.</p>";
     }
     ?>
 </body>
