@@ -14,7 +14,7 @@
     <?php
     function is_prime($num)
     {
-        if ($num < 2) {
+        if ($num < 1) {
             return false;
         }
         for ($i = 2; $i <= sqrt($num); $i++) {
@@ -31,10 +31,10 @@
                 ? print("<p>The number you entered $num is a prime number.</p>")
                 : print("<p>The number you entered $num is not a prime number.</p>");
         } else {
-            echo "<p>Please enter a number.</p>";
+            echo "<p>Please enter a positive integer.</p>";
         }
     } else {
-        echo "<p>Please enter a number.</p>";
+        echo "<p>Please enter a positive integer.</p>";
     }
     ?>
 </body>
