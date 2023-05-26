@@ -12,22 +12,44 @@
 <body>
     <h1>Job Vacancy Posting System</h1>
     <form method="POST" action="postjobform.php">
-        <p>Position ID: <input type="text" id="positionId" name="positionId">
+        <p>Position ID: <input type="text" id="posId" name="posId">
             <?php
-            if (isset($_POST['positionId'])) {
-                if (empty($_POST['positionId'])) {
-                    echo "Please enter a position ID.";
+            if (isset($_POST['posId'])) {
+                if (empty($_POST['posId'])) {
+                    echo 'Please enter a position ID.';
+                } else if (!preg_match('/^P\d{4}$/', $_POST['posId'])) {
+                    echo 'Please enter a unique 5-character code that starts with "P" and follows by 4 digits e.g. P0001.';
                 } else {
-                    $positionId = $_POST['positionId'];
+                    $posId = $_POST['posId'];
                 }
             }
             ?></p>
-        <p>Title: <input type="text" id="title" name="title"></p>
-        <?php
-
-        ?>
-        <p>Description: <textarea id="description" name="description"></textarea></p>
-        <p>Closing Date: <input type="text" id="closingDate" name="closingDate" value="<?php echo date('d/m/y'); ?>"></p>
+        <p>Title: <input type="text" id="title" name="title">
+            <?php
+            if (isset($_POST['title'])) {
+                if (empty($_POST['title'])) {
+                    echo 'Please enter a title.';
+                } else if (!preg_match('/^[a-zA-Z0-9 ,.!]{1,20}$/', $_POST['title'])) {
+                    echo 'Please enter a maximum of 20 characters without any special characacter (comma, period, and exclamation point are allowed).';
+                } else {
+                    $title = $_POST['title'];
+                }
+            }
+            ?></p>
+        <p>Description: <textarea id="des" name="des"></textarea>
+            <?php
+            if (isset($_POST['des'])) {
+                if (empty($_POST['des'])) {
+                    echo 'Please enter a description.';
+                } else if (strlen($_POST['des']) > 260) {
+                    echo 'Please enter a maximum of 260 characters.';
+                } else {
+                    $des = $_POST['des'];
+                }
+            }
+            ?></p>
+        <p>Closing Date: <input type="text" id="closingDate" name="closingDate" value="<?php echo date('d/m/y'); ?>">
+        </p>
         <p>Position:
             <input type="radio" id="fullTime" name="position" value="Full Time">
             <label for="fullTime">Full Time</label>
