@@ -33,7 +33,6 @@
 		return true; // Position ID is unique
 	}
 
-
 	// validate position id field
 	if (isset($_POST['posId'])) {
 		// check if the field is empty
@@ -126,7 +125,8 @@
 	}
 	// if validated, assign the value to a variable
 	else {
-		$app = $_POST['app'];
+		$app = implode(", ", $_POST['app']);
+		// $app = $_POST['app'];
 	}
 
 	// validate the location option menu
@@ -157,13 +157,14 @@
 			// Close the file handle
 			fclose($handle);
 
-			echo $record;
+			echo "The job vacancy has been posted successfully.";
 		} else {
 			echo "Unable to open the file.";
 		}
 	}
 	?>
-
+	<p><a href="postjobform.php">Back to Job Posting Page</a></p>
+	<p><a href="index.php">Back to Home</a></p>
 </body>
 
 </html>

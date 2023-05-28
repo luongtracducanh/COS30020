@@ -30,9 +30,9 @@
 			<label for="fixedTerm">Fixed term</label>
 		</p>
 		<p>Accepted application By:
-			<input type="checkbox" id="post" name="app" value="Post">
+			<input type="checkbox" id="post" name="app[]" value="Post">
 			<label for="post">Post</label>
-			<input type="checkbox" id="mail" name="app" value="Mail">
+			<input type="checkbox" id="mail" name="app[]" value="Mail">
 			<label for="mail">Mail</label>
 		</p>
 		<p>Location:
