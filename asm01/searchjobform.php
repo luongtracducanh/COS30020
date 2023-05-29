@@ -10,12 +10,10 @@
 
 <body>
   <h1>Job Vacancy Posting System</h1>
-  <form method="POST" action="postjobprocess.php">
-    <p>Position ID: <input type="text" id="posId" name="posId"></p>
-    <p>Title: <input type="text" id="title" name="title"></p>
-    <p>Description: <textarea id="des" name="des"></textarea></p>
-    <!-- echo current date using php -->
-    <p>Closing Date: <input type="text" id="date" name="date" value="<?php echo date('d/m/y'); ?>"></p>
+  <form method="GET" action="searchjobprocess.php">
+    <p>Job Title:
+      <input type="text" id="title" name="title">
+    </p>
     <p>Position:
       <input type="radio" id="fullTime" name="position" value="Full Time">
       <label for="fullTime">Full Time</label>
@@ -47,10 +45,10 @@
         <option value="WA">WA</option>
       </select>
     </p>
-    <input type="submit" value="Submit">
-    <input type="reset" value="Reset">
-    <p>All fields are required. <a href="index.php">Return to Home Page</a></p>
+    <button>Search</button>
+    <button type="reset">Reset</button>
   </form>
+  <p><a href="index.php">Return to Home Page</a></p>
 </body>
 
 </html>
