@@ -16,42 +16,65 @@
     $title = $_GET['title'];
     $position = isset($_GET["position"]) ? $_GET["position"] : "";
     $contract = isset($_GET["contract"]) ? $_GET["contract"] : "";
-    $application = isset($_GET["app"]) ? $_GET["app"] : [];
+    $app = isset($_GET["app"]) ? $_GET["app"] : [];
     $location = isset($_GET["location"]) ? $_GET["location"] : "";
 
-    $file = 'jobs.txt';
+    $file = 'jobposts/jobs.txt';
     $handle = fopen($file, 'r');
     // check if the file is opened successfully
     if ($handle) {
-      $temp = 0; // a variable to check if any job vacancy is found
+      $jobVacancies = []; // array to store the job vacancies
       while (($line = fgets($handle)) !== false) {
         $lineData = explode("\t", $line);
         $jobTitle = isset($lineData[1]) ? $lineData[1] : "";
         $jobPosition = isset($lineData[4]) ? $lineData[4] : "";
         $jobContract = isset($lineData[5]) ? $lineData[5] : "";
-        $jobApplication = isset($lineData[6]) ? explode(",", $lineData[6]) : [];
+        $jobApplication = isset($lineData[6]) ? explode(", ", $lineData[6]) : [];
         $jobLocation = isset($lineData[7]) ? $lineData[7] : "";
         // check if the job vacancy matches the search criteria
         if (
           (strpos(strtolower(trim($jobTitle)), strtolower($title)) !== false) &&
           (empty($position) || strtolower(trim($jobPosition)) === strtolower($position)) &&
           (empty($contract) || strtolower(trim($jobContract)) === strtolower($contract)) &&
-          (empty($application) || array_intersect(array_map('strtolower', $application), array_map('strtolower', $jobApplication))) &&
+          (empty($app) || array_intersect(array_map('strtolower', $app), array_map('strtolower', $jobApplication))) &&
           (empty($location) || strtolower(trim($jobLocation)) === strtolower($location))
         ) {
-          // display the job vacancy information
-          echo "<p>Job Title: $jobTitle</p>";
-          echo "<p>Description: \"$lineData[2]\"</p>";
-          $closingDate = DateTime::createFromFormat('d/m/y', $lineData[3])->format('d/m/y');
-          echo "<p>Closing Date: $closingDate</p>";
-          echo "<p>Position: $jobContract - $jobPosition</p>";
-          echo "<p>Application by: " . implode(", ", $jobApplication) . "</p>";
-          echo "<p>Location: $jobLocation</p><hr>";
-          $temp++; // increase the variable to bypass the error message
+          $closingDate = DateTime::createFromFormat('d/m/y', $lineData[3]);
+          // add the job vacancy to the array with closing date as the key
+          // format will be yymmdd for sorting purpose
+          $jobVacancies[$closingDate->format('ymd')] = [
+            'title' => $jobTitle,
+            'description' => $lineData[2],
+            'closingDate' => $closingDate,
+            'position' => "$jobContract - $jobPosition",
+            'application' => $jobApplication,
+            'location' => $jobLocation
+          ];
         }
       }
-      if ($temp == 0) { // if no job vacancy is found then $temp is still 0
+      if (empty($jobVacancies)) {
         echo '<p>No job vacancy found.</p>';
+      } else {
+        // sort the job vacancies by closing date in descending order
+        krsort($jobVacancies);
+
+        // iterate over the sorted job vacancies and display the information
+        foreach ($jobVacancies as $job) {
+          $jobTitle = $job['title'];
+          $description = $job['description'];
+          $closingDate = $job['closingDate']->format('d/m/y');
+          $position = $job['position'];
+          $application = implode(", ", $job['application']);
+          $location = $job['location'];
+
+          // display the job vacancy information
+          echo "<p>Job Title: $jobTitle</p>";
+          echo "<p>Description: \"$description\"</p>";
+          echo "<p>Closing Date: $closingDate</p>";
+          echo "<p>Position: $position</p>";
+          echo "<p>Application by: $application</p>";
+          echo "<p>Location: $location</p><hr>";
+        }
       }
       fclose($handle); // close the file
     }

@@ -11,7 +11,7 @@
 <body>
   <h1>Job Vacancy Posting System</h1>
   <?php
-  $file = 'jobs.txt';
+  $file = 'jobposts/jobs.txt';
 
   // Validate a field based on a regular expression pattern
   function validateField($fieldName, $fieldValue, $pattern, $errorMessage)

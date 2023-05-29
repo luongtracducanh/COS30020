@@ -3,13 +3,14 @@ P1001	IT Manager	Oversee tech systems, lead team, manage projects, enforce polic
 P1002	Accountant	Manage financial records, analyze data, prepare reports, ensure compliance. Detail-oriented and strong analytical skills required.	02/07/23	Part Time	On-going	Post	TAS
 P1098	Software Engineer	Develop software solutions, collaborate with teams, write code, debug, and ensure quality. Strong problem-solving and programming skills required.	11/10/23	Full Time	On-going	Post	NSW
 P0987	Police Officer	Catch criminal and go patrol.	22/08/23	Full Time	On-going	Post, Mail	NT
-P2001	Marketing Manager	Develop marketing strategies, oversee campaigns, analyze market trends. Strong communication and leadership skills required.	15/07/23	Full Time	Fixed term	Post, Mail	NSW
+P2001	Marketing Manager	Develop marketing strategies, oversee campaigns, analyze market trends. Strong communication and leadership skills required.	15/07/23	Full Time	Fixed term	Mail	NSW
 P2002	Marketing Manager	Lead a team of marketers, develop and implement marketing plans. Excellent project management and strategic thinking required.	15/07/23	Full Time	Fixed term	Post, Mail	VIC
 P3001	Sales Representative	Identify potential customers, promote products/services, negotiate contracts. Strong interpersonal and persuasive skills required.	20/07/23	Full Time	On-going	Post, Mail	VIC
-P3002	Sales Representative	Build relationships with clients, meet sales targets, provide excellent customer service. Self-motivated and results-oriented individuals preferred.	20/07/23	Full Time	On-going	Post, Mail	NSW
+P3002	Sales Representative	Build relationships with clients, meet sales targets, provide excellent customer service. Self-motivated and results-oriented individuals preferred.	20/07/23	Full Time	On-going	Mail	NSW
 P4001	Graphic Designer	Create visual concepts, design marketing materials, collaborate with clients and team members. Proficiency in Adobe Creative Suite and creativity required.	25/07/23	Part Time	On-going	Post	TAS
 P4002	Graphic Designer	Develop innovative design solutions, create brand identities, and deliver high-quality graphic materials. Strong attention to detail and creativity required.	25/07/23	Part Time	On-going	Post	TAS
 P5001	Financial Analyst	Analyze financial data, prepare reports, provide insights and recommendations. Strong analytical and problem-solving skills required.	30/07/23	Full Time	On-going	Post	QLD
 P5002	Financial Analyst	Perform financial forecasting, budgeting, and analysis. Advanced Excel skills and attention to detail required.	30/07/23	Full Time	On-going	Post	QLD
 P6001	Human Resources Manager	Oversee HR operations, recruit and onboard employees, implement HR policies. Excellent interpersonal and organizational skills required.	05/08/23	Full Time	On-going	Post, Mail	WA
 P6002	Human Resources Manager	Manage employee relations, performance management, and HR programs. Strong knowledge of labor laws and HR best practices required.	05/08/23	Full Time	On-going	Mail	WA
+P8763	IT Teacher	Teaches COS30020	18/12/23	Part Time	On-going	Mail	QLD
