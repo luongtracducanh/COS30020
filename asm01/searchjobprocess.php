@@ -5,11 +5,11 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JVPS - Search Results</title>
+  <title>JVPS</title>
 </head>
 
 <body>
-  <h1>Job Vacancy Posting System - Search Results</h1>
+  <h1>Job Vacancy Posting System</h1>
   <?php
   // check if the job title is set and not empty
   if (isset($_GET['title']) && !empty($_GET['title'])) {
