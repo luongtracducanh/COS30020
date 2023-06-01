@@ -11,6 +11,29 @@
 <body>
   <h1>Job Vacancy Posting System</h1>
   <?php
+  $currentDate = new DateTime(); // Get the current date
+
+  // function for special feature
+  function replaceVnese($str)
+  {
+    // lowercase
+    $str = preg_replace("/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/", 'a', $str);
+    $str = preg_replace("/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/", 'e', $str);
+    $str = preg_replace("/(ì|í|ị|ỉ|ĩ)/", 'i', $str);
+    $str = preg_replace("/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/", 'o', $str);
+    $str = preg_replace("/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/", 'u', $str);
+    $str = preg_replace("/(ỳ|ý|ỵ|ỷ|ỹ)/", 'y', $str);
+    $str = preg_replace("/(đ)/", 'd', $str);
+    // uppercase
+    $str = preg_replace("/(À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ)/", 'A', $str);
+    $str = preg_replace("/(È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ)/", 'E', $str);
+    $str = preg_replace("/(Ì|Í|Ị|Ỉ|Ĩ)/", 'I', $str);
+    $str = preg_replace("/(Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ)/", 'O', $str);
+    $str = preg_replace("/(Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ)/", 'U', $str);
+    $str = preg_replace("/(Ỳ|Ý|Ỵ|Ỷ|Ỹ)/", 'Y', $str);
+    $str = preg_replace("/(Đ)/", 'D', $str);
+    return $str;
+  }
   // check if the job title is set and not empty
   if (isset($_GET['title']) && !empty($_GET['title'])) {
     $title = $_GET['title'];
@@ -27,19 +50,21 @@
       while (($line = fgets($handle)) !== false) {
         $lineData = explode("\t", $line);
         $jobTitle = isset($lineData[1]) ? $lineData[1] : "";
+        $closingDate = DateTime::createFromFormat('d/m/y', $lineData[3]);
         $jobPosition = isset($lineData[4]) ? $lineData[4] : "";
         $jobContract = isset($lineData[5]) ? $lineData[5] : "";
         $jobApplication = isset($lineData[6]) ? explode(", ", $lineData[6]) : [];
         $jobLocation = isset($lineData[7]) ? $lineData[7] : "";
         // check if the job vacancy matches the search criteria
         if (
-          (strpos(strtolower(trim($jobTitle)), strtolower($title)) !== false) &&
+          (strpos(strtolower(replaceVnese(trim($jobTitle))), strtolower(replaceVnese($title))) !== false) &&
+          // (strpos(strtolower(trim($jobTitle)), strtolower($title)) !== false) &&
           (empty($position) || strtolower(trim($jobPosition)) === strtolower($position)) &&
           (empty($contract) || strtolower(trim($jobContract)) === strtolower($contract)) &&
           (empty($app) || array_intersect(array_map('strtolower', $app), array_map('strtolower', $jobApplication))) &&
-          (empty($location) || strtolower(trim($jobLocation)) === strtolower($location))
+          (empty($location) || strtolower(trim($jobLocation)) === strtolower($location)) &&
+          ($closingDate >= $currentDate) // check if the closing date is after or equal to the current date
         ) {
-          $closingDate = DateTime::createFromFormat('d/m/y', $lineData[3]);
           // add the job vacancy to the array with closing date as the key
           // format will be yymmdd for sorting purpose
           $jobVacancies[$closingDate->format('ymd')] = [
@@ -58,11 +83,11 @@
         // sort the job vacancies by closing date in descending order
         krsort($jobVacancies);
 
-        // iterate over the sorted job vacancies and display the information
+        // iterate over the sorted job vacancies and display the information for the ones that haven't closed
         foreach ($jobVacancies as $job) {
           $jobTitle = $job['title'];
           $description = $job['description'];
-          $closingDate = $job['closingDate']->format('d/m/y');
+          $closingDate = $job['closingDate'];
           $position = $job['position'];
           $application = implode(", ", $job['application']);
           $location = $job['location'];
@@ -70,7 +95,7 @@
           // display the job vacancy information
           echo "<p>Job Title: $jobTitle</p>";
           echo "<p>Description: \"$description\"</p>";
-          echo "<p>Closing Date: $closingDate</p>";
+          echo "<p>Closing Date: {$closingDate->format('d/m/y')}</p>";
           echo "<p>Position: $position</p>";
           echo "<p>Application by: $application</p>";
           echo "<p>Location: $location</p><hr>";

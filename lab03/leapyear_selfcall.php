@@ -37,8 +37,6 @@
         } else {
             echo "<p>Please enter a positive integer.</p>";
         }
-    } else {
-        echo "<p>Please enter a year.</p>";
     }
     ?>
 </body>

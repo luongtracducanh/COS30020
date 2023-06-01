@@ -14,3 +14,5 @@ P5002	Financial Analyst	Perform financial forecasting, budgeting, and analysis. 
 P6001	Human Resources Manager	Oversee HR operations, recruit and onboard employees, implement HR policies. Excellent interpersonal and organizational skills required.	05/08/23	Full Time	On-going	Post, Mail	WA
 P6002	Human Resources Manager	Manage employee relations, performance management, and HR programs. Strong knowledge of labor laws and HR best practices required.	05/08/23	Full Time	On-going	Mail	WA
 P8763	IT Teacher	Teaches COS30020	18/12/23	Part Time	On-going	Mail	QLD
+P1309	Giáo viên toán	Dạy toán cho học sinh cấp 3.	05/06/23	Full Time	Fixed term	Post, Mail	ACT
+P1304	Giáo viên toán	Dạy toán cho học sinh cấp 3.	01/06/23	Full Time	Fixed term	Post, Mail	VIC
