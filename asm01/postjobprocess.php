@@ -11,7 +11,7 @@
 <body>
   <h1>Job Vacancy Posting System</h1>
   <?php
-  $file = 'jobposts/jobs.txt'; // sudo chown ducanh:www-data jobs.txt
+  $file = '/home/students/accounts/s103488117/cos30020/www/data/jobposts'; // sudo chown ducanh:www-data jobs.txt
 
   // Validate a field based on a regular expression pattern
   function validateField($fieldName, $fieldValue, $pattern, $errorMessage)

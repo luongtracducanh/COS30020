@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JVPS</title>
-  <link rel="stylesheet" href="style/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -14,7 +14,7 @@
   <ul>
     <li>The PHP version installed in Mercury is 5.4.16.</li>
     <li>I have attempted and completed all tasks.</li>
-    <li>For the special feature, I have added Vietnamese language job posting and searching, using a modified regex for post validation and a replaceVnese() function for search validation.</li>
+    <li>For the special feature, I have added Vietnamese language job posting and searching, using a modified regex for post validation and a replaceVnese() function for search filtering.</li>
   </ul>
   <h3>Discussion points participated</h3>
   <figure>

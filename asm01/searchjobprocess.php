@@ -13,7 +13,7 @@
   <?php
   $currentDate = new DateTime(); // Get the current date
 
-  // function for special feature
+  // function for special feature - replace Vietnamese characters with English characters for search filtering
   function replaceVnese($str)
   {
     // lowercase
@@ -24,14 +24,14 @@
     $str = preg_replace("/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/", 'u', $str);
     $str = preg_replace("/(ỳ|ý|ỵ|ỷ|ỹ)/", 'y', $str);
     $str = preg_replace("/(đ)/", 'd', $str);
-    // uppercase
-    $str = preg_replace("/(À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ)/", 'A', $str);
-    $str = preg_replace("/(È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ)/", 'E', $str);
-    $str = preg_replace("/(Ì|Í|Ị|Ỉ|Ĩ)/", 'I', $str);
-    $str = preg_replace("/(Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ)/", 'O', $str);
-    $str = preg_replace("/(Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ)/", 'U', $str);
-    $str = preg_replace("/(Ỳ|Ý|Ỵ|Ỷ|Ỹ)/", 'Y', $str);
-    $str = preg_replace("/(Đ)/", 'D', $str);
+    // uppercase (not needed since the job titles will be converted to lowercase before being passed to this function)
+    // $str = preg_replace("/(À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ)/", 'A', $str);
+    // $str = preg_replace("/(È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ)/", 'E', $str);
+    // $str = preg_replace("/(Ì|Í|Ị|Ỉ|Ĩ)/", 'I', $str);
+    // $str = preg_replace("/(Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ)/", 'O', $str);
+    // $str = preg_replace("/(Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ)/", 'U', $str);
+    // $str = preg_replace("/(Ỳ|Ý|Ỵ|Ỷ|Ỹ)/", 'Y', $str);
+    // $str = preg_replace("/(Đ)/", 'D', $str);
     return $str;
   }
   // check if the job title is set and not empty
@@ -42,7 +42,7 @@
     $app = isset($_GET["app"]) ? $_GET["app"] : [];
     $location = isset($_GET["location"]) ? $_GET["location"] : "";
 
-    $file = 'jobposts/jobs.txt';
+    $file = '/home/students/accounts/s103488117/cos30020/www/data/jobposts';
     $handle = fopen($file, 'r');
     // check if the file is opened successfully
     if ($handle) {
@@ -57,7 +57,7 @@
         $jobLocation = isset($lineData[7]) ? $lineData[7] : "";
         // check if the job vacancy matches the search criteria
         if (
-          (strpos(strtolower(replaceVnese(trim($jobTitle))), strtolower(replaceVnese($title))) !== false) &&
+          (strpos(replaceVnese(strtolower($jobTitle)), replaceVnese(strtolower(trim($title)))) !== false) &&
           // (strpos(strtolower(trim($jobTitle)), strtolower($title)) !== false) &&
           (empty($position) || strtolower(trim($jobPosition)) === strtolower($position)) &&
           (empty($contract) || strtolower(trim($jobContract)) === strtolower($contract)) &&
@@ -78,7 +78,7 @@
         }
       }
       if (empty($jobVacancies)) {
-        echo '<p>No job vacancy found.</p>';
+        echo '<p>No up-to-date job vacancy found.</p>';
       } else {
         // sort the job vacancies by closing date in descending order
         krsort($jobVacancies);
