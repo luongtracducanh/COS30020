@@ -39,21 +39,21 @@
     $title = $_GET['title'];
     $position = isset($_GET["position"]) ? $_GET["position"] : "";
     $contract = isset($_GET["contract"]) ? $_GET["contract"] : "";
-    $app = isset($_GET["app"]) ? $_GET["app"] : [];
+    $app = isset($_GET["app"]) ? $_GET["app"] : array();
     $location = isset($_GET["location"]) ? $_GET["location"] : "";
 
-    $file = '/home/students/accounts/s103488117/cos30020/www/data/jobposts';
+    $file = '../../data/jobposts/jobs.txt';
     $handle = fopen($file, 'r');
     // check if the file is opened successfully
     if ($handle) {
-      $jobVacancies = []; // array to store the job vacancies
+      $jobVacancies = array(); // array to store the job vacancies
       while (($line = fgets($handle)) !== false) {
         $lineData = explode("\t", $line);
         $jobTitle = isset($lineData[1]) ? $lineData[1] : "";
-        $closingDate = DateTime::createFromFormat('d/m/y', $lineData[3]);
+        $closingDate = date_create_from_format('d/m/y', $lineData[3]);
         $jobPosition = isset($lineData[4]) ? $lineData[4] : "";
         $jobContract = isset($lineData[5]) ? $lineData[5] : "";
-        $jobApplication = isset($lineData[6]) ? explode(", ", $lineData[6]) : [];
+        $jobApplication = isset($lineData[6]) ? explode(", ", $lineData[6]) : array();
         $jobLocation = isset($lineData[7]) ? $lineData[7] : "";
         // check if the job vacancy matches the search criteria
         if (
@@ -67,14 +67,14 @@
         ) {
           // add the job vacancy to the array with closing date as the key
           // format will be yymmdd for sorting purpose
-          $jobVacancies[$closingDate->format('ymd')] = [
+          $jobVacancies[$closingDate->format('ymd')] = array(
             'title' => $jobTitle,
             'description' => $lineData[2],
             'closingDate' => $closingDate,
             'position' => "$jobContract - $jobPosition",
             'application' => $jobApplication,
             'location' => $jobLocation
-          ];
+          );
         }
       }
       if (empty($jobVacancies)) {
@@ -102,6 +102,8 @@
         }
       }
       fclose($handle); // close the file
+    } else {
+      echo "Unable to open the file.";
     }
   } else {
     echo '<p>Please enter a job title.</p>';
