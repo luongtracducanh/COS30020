@@ -10,9 +10,10 @@
 </head>
 
 <body>
-    <h1>Web Programming Form - Lab 4</h1>
-    <form action="strprocess.php" method="post">
-        <input type="text" name="str" />
+    <h1>Web Programming Form - Lab 5</h1>
+    <form action="shoppingsave.php" method="post">
+        <p>Enter item name: <input name="item"></p>
+        <p>Enter quantity: <input name="qty"></p>
         <input type="submit" value="Submit" />
     </form>
 </body>

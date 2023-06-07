@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="description" content="Web application development" />
     <meta name="keywords" content="PHP" />
-    <meta name="author" content="Your Name" />
+    <meta name="author" content="Trac Duc Anh Luong" />
     <title>TITLE</title>
 </head>
 
