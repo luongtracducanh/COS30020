@@ -13,7 +13,6 @@
     <hr>
     <?php
     $filename = "../../data/lab05/guestbook.txt";
-    // $handle = fopen($filename, "r");
     if (!file_exists($filename)) {
         echo "<p style='color:red'>Guestbook is empty!</p>";
         exit;
