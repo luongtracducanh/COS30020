@@ -18,11 +18,14 @@
         exit;
     } else {
         $handle = fopen($filename, "r");
+        // method 1 to read file
         $data = "";
         while (!feof($handle)) {
             $temp = stripslashes(fgets($handle));
             $data .= $temp;
         }
+        // method 2 to read file
+        // $data = fread($handle, filesize($filename));
         echo "<p style='color:green'>Guest book entries:</p>";
         echo "<pre style=\"font-family: 'Times New Roman', Times, serif;\">$data</pre>";
         fclose($handle);

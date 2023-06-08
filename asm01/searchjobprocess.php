@@ -34,6 +34,17 @@
     // $str = preg_replace("/(Đ)/", 'D', $str);
     return $str;
   }
+
+  function sortByClosingDate($a, $b)
+  {
+    if ($a['closingDate'] < $b['closingDate']) {
+      return -1;
+    } elseif ($a['closingDate'] > $b['closingDate']) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
   // check if the job title is set and not empty
   if (isset($_GET['title']) && !empty($_GET['title'])) {
     $title = $_GET['title'];
@@ -50,7 +61,7 @@
       while (($line = fgets($handle)) !== false) {
         $lineData = explode("\t", $line);
         $jobTitle = isset($lineData[1]) ? $lineData[1] : "";
-        $closingDate = date_create_from_format('d/m/y', $lineData[3]);
+        $closingDate = isset($lineData[3]) ? date_create_from_format('d/m/y', $lineData[3]) : "";
         $jobPosition = isset($lineData[4]) ? $lineData[4] : "";
         $jobContract = isset($lineData[5]) ? $lineData[5] : "";
         $jobApplication = isset($lineData[6]) ? explode(", ", $lineData[6]) : array();
@@ -67,7 +78,7 @@
         ) {
           // add the job vacancy to the array with closing date as the key
           // format will be yymmdd for sorting purpose
-          $jobVacancies[$closingDate->format('ymd')] = array(
+          $jobVacancies[] = array(
             'title' => $jobTitle,
             'description' => $lineData[2],
             'closingDate' => $closingDate,
@@ -81,7 +92,7 @@
         echo '<p>No up-to-date job vacancy found.</p>';
       } else {
         // sort the job vacancies by closing date in descending order
-        krsort($jobVacancies);
+        usort($jobVacancies, 'sortByClosingDate');
 
         // iterate over the sorted job vacancies and display the information for the ones that haven't closed
         foreach ($jobVacancies as $job) {

@@ -43,11 +43,17 @@
     return true; // Position ID is unique
   }
 
+  // Error messages for the position and contract fields
+  function error($fieldName)
+  {
+    echo "<p>Please select a $fieldName.</p>";
+  }
+
   // Validate the application method field
   function validateApplicationMethod($fieldName, $fieldValue)
   {
     if (empty($fieldValue)) {
-      echo "<p>Please select $fieldName(s) to send accepted application.</p>";
+      echo "<p>Please select a $fieldName(s) to send accepted application.</p>";
     } else {
       return implode(", ", $fieldValue);
     }
@@ -71,10 +77,10 @@
     // $title = validateField('title', $_POST['title'], '/^[a-zA-Z0-9 ,.!]{1,20}$/', 'Please enter a maximum of 20 characters without any special characters (comma, period, and exclamation point are allowed).');
     // support Vietnamese characters
     $title = validateField('title', $_POST['title'], '/^[a-zA-Z0-9 ,.!àáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]{1,20}$/', 'Please enter a maximum of 20 characters without any special characters (comma, period, and exclamation point are allowed).');
-    $des = validateField('description', $_POST['des'], '/^.{1,260}$/', 'Please enter a maximum of 260 characters.');
+    $des = validateField('description', $_POST['des'], '/^.{1,260}$/', 'Please enter a maximum of 260 characters in the description.');
     $date = validateField('closing date', $_POST['date'], '/^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{2}$/', 'Please enter a date in "dd/mm/yy" format.');
-    $position = isset($_POST['position']) ? $_POST['position'] : array();
-    $contract = isset($_POST['contract']) ? $_POST['contract'] : array();
+    $position = isset($_POST['position']) ? $_POST['position'] : error("full-time or part-time postion");
+    $contract = isset($_POST['contract']) ? $_POST['contract'] : error("on-going or fixed-term contract");
     $app = validateApplicationMethod('method', isset($_POST['app']) ? $_POST['app'] : array());
     $location = validateLocation('location', isset($_POST['location']) ? $_POST['location'] : '');
 

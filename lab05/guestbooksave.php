@@ -22,8 +22,11 @@
         $lName = $_POST["lName"];
         $filename = "../../data/lab05/guestbook.txt";
         $handle = fopen($filename, "a");
+        // method 1 to write file
         $data = addslashes($fName . " " . $lName . "\n");
         fwrite($handle, $data);
+        // method 2 to write file
+        // file_put_contents($filename, $data, FILE_APPEND);
         fclose($handle);
         echo "<p style='color:green'>Thank you for signing our guest book!</p>";
     } else {
