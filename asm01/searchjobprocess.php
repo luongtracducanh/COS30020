@@ -35,16 +35,6 @@
     return $str;
   }
 
-  function sortByClosingDate($a, $b)
-  {
-    if ($a['closingDate'] < $b['closingDate']) {
-      return -1;
-    } elseif ($a['closingDate'] > $b['closingDate']) {
-      return 1;
-    } else {
-      return 0;
-    }
-  }
   // check if the job title is set and not empty
   if (isset($_GET['title']) && !empty($_GET['title'])) {
     $title = $_GET['title'];
@@ -54,67 +44,80 @@
     $location = isset($_GET["location"]) ? $_GET["location"] : "";
 
     $file = '../../data/jobposts/jobs.txt';
-    $handle = fopen($file, 'r');
-    // check if the file is opened successfully
-    if ($handle) {
-      $jobVacancies = array(); // array to store the job vacancies
-      while (($line = fgets($handle)) !== false) {
-        $lineData = explode("\t", $line);
-        $jobTitle = isset($lineData[1]) ? $lineData[1] : "";
-        $closingDate = isset($lineData[3]) ? date_create_from_format('d/m/y', $lineData[3]) : "";
-        $jobPosition = isset($lineData[4]) ? $lineData[4] : "";
-        $jobContract = isset($lineData[5]) ? $lineData[5] : "";
-        $jobApplication = isset($lineData[6]) ? explode(", ", $lineData[6]) : array();
-        $jobLocation = isset($lineData[7]) ? $lineData[7] : "";
-        // check if the job vacancy matches the search criteria
-        if (
-          (strpos(replaceVnese(strtolower($jobTitle)), replaceVnese(strtolower(trim($title)))) !== false) &&
-          // (strpos(strtolower(trim($jobTitle)), strtolower($title)) !== false) &&
-          (empty($position) || strtolower(trim($jobPosition)) === strtolower($position)) &&
-          (empty($contract) || strtolower(trim($jobContract)) === strtolower($contract)) &&
-          (empty($app) || array_intersect(array_map('strtolower', $app), array_map('strtolower', $jobApplication))) &&
-          (empty($location) || strtolower(trim($jobLocation)) === strtolower($location)) &&
-          ($closingDate >= $currentDate) // check if the closing date is after or equal to the current date
-        ) {
-          // add the job vacancy to the array with closing date as the key
-          // format will be yymmdd for sorting purpose
-          $jobVacancies[] = array(
-            'title' => $jobTitle,
-            'description' => $lineData[2],
-            'closingDate' => $closingDate,
-            'position' => "$jobContract - $jobPosition",
-            'application' => $jobApplication,
-            'location' => $jobLocation
-          );
-        }
-      }
-      if (empty($jobVacancies)) {
-        echo '<p>No up-to-date job vacancy found.</p>';
-      } else {
-        // sort the job vacancies by closing date in descending order
-        usort($jobVacancies, 'sortByClosingDate');
-
-        // iterate over the sorted job vacancies and display the information for the ones that haven't closed
-        foreach ($jobVacancies as $job) {
-          $jobTitle = $job['title'];
-          $description = $job['description'];
-          $closingDate = $job['closingDate'];
-          $position = $job['position'];
-          $application = implode(", ", $job['application']);
-          $location = $job['location'];
-
-          // display the job vacancy information
-          echo "<p>Job Title: $jobTitle</p>";
-          echo "<p>Description: \"$description\"</p>";
-          echo "<p>Closing Date: {$closingDate->format('d/m/y')}</p>";
-          echo "<p>Position: $position</p>";
-          echo "<p>Application by: $application</p>";
-          echo "<p>Location: $location</p><hr>";
-        }
-      }
-      fclose($handle); // close the file
+    if (!file_exists($file)) {
+      echo "<p>No up-to-date job vacancy found.</p>";
+      exit;
     } else {
-      echo "Unable to open the file.";
+      $handle = fopen($file, 'r');
+      // check if the file is opened successfully
+      if ($handle) {
+        $jobVacancies = array(); // array to store the job vacancies
+        while (($line = fgets($handle)) !== false) {
+          $lineData = explode("\t", $line);
+          $jobTitle = isset($lineData[1]) ? $lineData[1] : "";
+          $des = isset($lineData[2]) ? stripslashes($lineData[2]) : "";
+          $closingDate = isset($lineData[3]) ? date_create_from_format('d/m/y', $lineData[3]) : "";
+          $jobPosition = isset($lineData[4]) ? $lineData[4] : "";
+          $jobContract = isset($lineData[5]) ? $lineData[5] : "";
+          $jobApplication = isset($lineData[6]) ? explode(", ", $lineData[6]) : array();
+          $jobLocation = isset($lineData[7]) ? $lineData[7] : "";
+          // check if the job vacancy matches the search criteria
+          if (
+            (strpos(replaceVnese(strtolower($jobTitle)), replaceVnese(strtolower(trim($title)))) !== false) &&
+            // (strpos(strtolower(trim($jobTitle)), strtolower($title)) !== false) &&
+            (empty($position) || strtolower(trim($jobPosition)) === strtolower($position)) &&
+            (empty($contract) || strtolower(trim($jobContract)) === strtolower($contract)) &&
+            (empty($app) || array_intersect(array_map('strtolower', $app), array_map('strtolower', $jobApplication))) &&
+            (empty($location) || strtolower(trim($jobLocation)) === strtolower($location)) &&
+            ($closingDate >= $currentDate) // check if the closing date is after or equal to the current date
+          ) {
+            // add the job vacancy to the array
+            $jobVacancies[] = array(
+              'title' => $jobTitle,
+              'description' => $des,
+              'closingDate' => $closingDate,
+              'position' => "$jobContract - $jobPosition",
+              'application' => $jobApplication,
+              'location' => $jobLocation
+            );
+          }
+        }
+        if (empty($jobVacancies)) {
+          echo '<p>No up-to-date job vacancy found.</p>';
+        } else {
+          // sort the job vacancies by closing date in descending order
+          usort($jobVacancies, function ($a, $b) {
+            if ($a['closingDate'] < $b['closingDate']) {
+              return -1;
+            } elseif ($a['closingDate'] > $b['closingDate']) {
+              return 1;
+            } else {
+              return 0;
+            }
+          });
+
+          // iterate over the sorted job vacancies and display the information for the ones that haven't closed
+          foreach ($jobVacancies as $job) {
+            $jobTitle = $job['title'];
+            $description = $job['description'];
+            $closingDate = $job['closingDate'];
+            $position = $job['position'];
+            $application = implode(", ", $job['application']);
+            $location = $job['location'];
+
+            // display the job vacancy information
+            echo "<p>Job Title: $jobTitle</p>";
+            echo "<p>Description: $description</p>";
+            echo "<p>Closing Date: {$closingDate->format('d/m/y')}</p>";
+            echo "<p>Position: $position</p>";
+            echo "<p>Application by: $application</p>";
+            echo "<p>Location: $location</p><hr>";
+          }
+        }
+        fclose($handle); // close the file
+      } else {
+        echo "Unable to open $file.";
+      }
     }
   } else {
     echo '<p>Please enter a job title.</p>';

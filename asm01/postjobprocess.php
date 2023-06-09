@@ -11,7 +11,14 @@
 <body>
   <h1>Job Vacancy Posting System</h1>
   <?php
-  $file = '../../data/jobposts/jobs.txt'; // sudo chown ducanh:www-data jobs.txt
+  umask(0007);
+  $dir = "../../data/jobposts";
+
+  if (!file_exists($dir)) {
+    mkdir($dir, 02770, true);
+  }
+
+  $file = '../../data/jobposts/jobs.txt';
 
   // Validate a field based on a regular expression pattern
   function validateField($fieldName, $fieldValue, $pattern, $errorMessage)
@@ -29,16 +36,20 @@
   // Check if the Position ID is unique
   function isPosIdUnique($posId, $file)
   {
-    $handle = fopen($file, 'r');
-    if ($handle) {
-      while (($line = fgets($handle)) !== false) {
-        $lineData = explode("\t", $line);
-        if (isset($lineData[0]) && trim($lineData[0]) === $posId) {
-          fclose($handle);
-          return false; // Position ID already exists
+    if (file_exists($file)) {
+      $handle = fopen($file, 'r');
+      if ($handle) {
+        while (($line = fgets($handle)) !== false) {
+          $lineData = explode("\t", $line);
+          if (isset($lineData[0]) && trim($lineData[0]) === $posId) {
+            fclose($handle);
+            return false; // Position ID already exists
+          }
         }
+        fclose($handle);
+      } else {
+        echo "Unable to open $file.";
       }
-      fclose($handle);
     }
     return true; // Position ID is unique
   }
@@ -77,10 +88,10 @@
     // $title = validateField('title', $_POST['title'], '/^[a-zA-Z0-9 ,.!]{1,20}$/', 'Please enter a maximum of 20 characters without any special characters (comma, period, and exclamation point are allowed).');
     // support Vietnamese characters
     $title = validateField('title', $_POST['title'], '/^[a-zA-Z0-9 ,.!àáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]{1,20}$/', 'Please enter a maximum of 20 characters without any special characters (comma, period, and exclamation point are allowed).');
-    $des = validateField('description', $_POST['des'], '/^.{1,260}$/', 'Please enter a maximum of 260 characters in the description.');
+    $des = validateField('description', preg_replace("/\.+/", ".", preg_replace("/\r?\n/", ". ", addslashes($_POST['des']))), '/^[\s\S]{1,260}$/', 'Please enter a maximum of 260 characters in the description.');
     $date = validateField('closing date', $_POST['date'], '/^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{2}$/', 'Please enter a date in "dd/mm/yy" format.');
     $position = isset($_POST['position']) ? $_POST['position'] : error("full-time or part-time postion");
-    $contract = isset($_POST['contract']) ? $_POST['contract'] : error("on-going or fixed-term contract");
+    $contract = isset($_POST['contract']) ? $_POST['contract'] : error("fixed-term or on-going contract");
     $app = validateApplicationMethod('method', isset($_POST['app']) ? $_POST['app'] : array());
     $location = validateLocation('location', isset($_POST['location']) ? $_POST['location'] : '');
 
