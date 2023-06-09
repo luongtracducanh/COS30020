@@ -100,6 +100,7 @@
           foreach ($jobVacancies as $job) {
             $jobTitle = $job['title'];
             $description = $job['description'];
+            $descriptionList = explode("[NEWLINE]", $description);
             $closingDate = $job['closingDate'];
             $position = $job['position'];
             $application = implode(", ", $job['application']);
@@ -107,7 +108,12 @@
 
             // display the job vacancy information
             echo "<p>Job Title: $jobTitle</p>";
-            echo "<p>Description: $description</p>";
+            echo "<span>Description:</span>";
+            echo "<ul>";
+            foreach ($descriptionList as $item) {
+              echo "<li>" . htmlspecialchars($item) . "</li>";
+            }
+            echo "</ul>";
             echo "<p>Closing Date: {$closingDate->format('d/m/y')}</p>";
             echo "<p>Position: $position</p>";
             echo "<p>Application by: $application</p>";

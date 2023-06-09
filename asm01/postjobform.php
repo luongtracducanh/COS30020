@@ -47,6 +47,7 @@
         <option value="WA">WA</option>
       </select>
     </p>
+    <p><i>Note: The description criteria will be displayed in a bullet point list. Simply enter each criteria on a new line in the text area, and we will automatically create the list for you.</i></p>
     <input type="submit" value="Submit">
     <input type="reset" value="Reset">
     <p>All fields are required. <a href="index.php">Return to Home Page</a></p>

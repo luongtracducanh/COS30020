@@ -54,6 +54,18 @@
     return true; // Position ID is unique
   }
 
+  function validateDes($str)
+  {
+    if (empty($str)) {
+      echo "<p>Please enter a description.</p>";
+    } else if (strlen($str) > 260) {
+      echo "<p>Please enter a maximum of 260 characters in the description.</p>";
+    } else {
+      return str_replace(["\r\n", "\r", "\n"], "[NEWLINE]", $str);
+    }
+    return null;
+  }
+
   // Error messages for the position and contract fields
   function error($fieldName)
   {
@@ -88,7 +100,8 @@
     // $title = validateField('title', $_POST['title'], '/^[a-zA-Z0-9 ,.!]{1,20}$/', 'Please enter a maximum of 20 characters without any special characters (comma, period, and exclamation point are allowed).');
     // support Vietnamese characters
     $title = validateField('title', $_POST['title'], '/^[a-zA-Z0-9 ,.!àáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]{1,20}$/', 'Please enter a maximum of 20 characters without any special characters (comma, period, and exclamation point are allowed).');
-    $des = validateField('description', preg_replace("/\.+/", ".", preg_replace("/\r?\n/", ". ", addslashes($_POST['des']))), '/^[\s\S]{1,260}$/', 'Please enter a maximum of 260 characters in the description.');
+    $des = validateDes($_POST["des"]);
+    $des = $des ? addslashes($des) : "";
     $date = validateField('closing date', $_POST['date'], '/^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{2}$/', 'Please enter a date in "dd/mm/yy" format.');
     $position = isset($_POST['position']) ? $_POST['position'] : error("full-time or part-time postion");
     $contract = isset($_POST['contract']) ? $_POST['contract'] : error("fixed-term or on-going contract");
@@ -106,7 +119,7 @@
           fclose($handle);
           echo "The job vacancy has been posted successfully.";
         } else {
-          echo "Unable to open the file.";
+          echo "Unable to open $file.";
         }
       }
     }
