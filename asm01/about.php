@@ -16,8 +16,8 @@
     <li>I have attempted and completed all tasks.</li>
     <li>In the special feature section, I have implemented the following enhancements:
       <ul>
-        <li>Automatic listing for the description field: Users can now enter multiple job criteria by simply adding a new line.<br>Each criterion will be added as a separate item in the list, which will be displayed on the search page.</li>
-        <li>Vietnamese language support: The system now supports job posting and searching in Vietnamese.<br>I have modified the regular expression pattern for post validation to accommodate Vietnamese characters,<br>and implemented a replaceVnese() function to enable search filtering with accurate results.</li>
+        <li>Automatic listing for the description field: Users can now enter multiple job criteria by simply adding a new line. Each criterion will be added as a separate item in the list, which will be displayed on the search page.</li>
+        <li>Vietnamese language support: The system now supports job posting and searching in Vietnamese. I have modified the regular expression pattern for post validation to accommodate Vietnamese characters, and implemented a replaceVnese() function to enable search filtering with accurate results.</li>
       </ul>
     </li>
   </ul>
