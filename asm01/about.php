@@ -14,7 +14,12 @@
   <ul>
     <li>The PHP version installed in Mercury is 5.4.16.</li>
     <li>I have attempted and completed all tasks.</li>
-    <li>For the special feature, I have added Vietnamese language job posting and searching, using a modified regex for post validation and a replaceVnese() function for search filtering.</li>
+    <li>In the special feature section, I have implemented the following enhancements:
+      <ul>
+        <li>Automatic listing for the description field: Users can now enter multiple job criteria by simply adding a new line.<br>Each criterion will be added as a separate item in the list, which will be displayed on the search page.</li>
+        <li>Vietnamese language support: The system now supports job posting and searching in Vietnamese.<br>I have modified the regular expression pattern for post validation to accommodate Vietnamese characters,<br>and implemented a replaceVnese() function to enable search filtering with accurate results.</li>
+      </ul>
+    </li>
   </ul>
   <h3>Discussion points participated</h3>
   <figure>
