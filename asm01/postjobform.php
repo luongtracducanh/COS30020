@@ -14,6 +14,7 @@
     <p>Position ID: <input type="text" id="posId" name="posId"></p>
     <p>Title: <input type="text" id="title" name="title"></p>
     <p>Description: <textarea id="des" name="des"></textarea></p>
+    <p><i>Note: The description criteria will be displayed in a bullet point list.<br>Simply enter each criteria on a new line in the text area, and we will automatically create the list for you.</i></p>
     <!-- echo current date using php -->
     <p>Closing Date: <input type="text" id="date" name="date" value="<?php echo date('d/m/y'); ?>"></p>
     <p>Position:
@@ -47,7 +48,6 @@
         <option value="WA">WA</option>
       </select>
     </p>
-    <p><i>Note: The description criteria will be displayed in a bullet point list. Simply enter each criteria on a new line in the text area, and we will automatically create the list for you.</i></p>
     <input type="submit" value="Submit">
     <input type="reset" value="Reset">
     <p>All fields are required. <a href="index.php">Return to Home Page</a></p>
