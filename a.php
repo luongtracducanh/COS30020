@@ -1,15 +1,10 @@
 <?php
-function mySort($a, $b)
-{
-  return $a <=> $b;
-}
+$str = "a@gmail.com";
+$emails = array();
+array_push($emails, "a@gmail.com");
 
-$numbers = array(1, 4, 3, 2, 5);
-usort($numbers, function ($a, $b)
-{
-  return $a <=> $b;
-});
-
-for ($i = 0; $i < count($numbers); $i++) {
-  echo $numbers[$i] . ", ";
+if (in_array($str, $emails)) {
+    echo "found";
+} else {
+    echo "not found";
 }

@@ -6,21 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JVPS</title>
-  <link rel="stylesheet" type="text/css" href="style/style.css">
 </head>
 
 <body>
-<h1 class="header">Job Vacancy Posting System</h1>
-    <nav>
-    <ul class="navigator">
-      <li class="navlist"> <a href="index.php">Home</a></li>
-      <li class="navlist"> <a href="postjobform.php">Post job</a></li>
-      <li class="navlist current"> <a href="searchjobform.php"> Search job</a></li>
-      <li class="navlist"> <a href="about.php">About assignment</a></li>
-  </ul>
-  </nav>
-  <div class="container">
-    <div>
+  <h1>Job Vacancy Posting System</h1>
   <?php
   $currentDate = new DateTime(); // Get the current date
 
@@ -56,7 +45,7 @@
 
     $file = '../../data/jobposts/jobs.txt';
     if (!file_exists($file)) {
-      echo "<p class='process'>No up-to-date job vacancy found.</p>";
+      echo "<p>No up-to-date job vacancy found.</p>";
       exit;
     } else {
       $handle = fopen($file, 'r');
@@ -94,7 +83,7 @@
           }
         }
         if (empty($jobVacancies)) {
-          echo "<p class='process'>No up-to-date job vacancy found.</p>";
+          echo '<p>No up-to-date job vacancy found.</p>';
         } else {
           // sort the job vacancies by closing date in descending order
           usort($jobVacancies, function ($a, $b) {
@@ -118,20 +107,17 @@
             $location = $job['location'];
 
             // display the job vacancy information
-          echo '<div class="jobvacancy">';
-            echo "<p class='jobtitle'> Job Title: $jobTitle</p>";
-            echo "<span class='list'>Description:</span>";
+            echo "<p>Job Title: $jobTitle</p>";
+            echo "<span>Description:</span>";
             echo "<ul>";
             foreach ($descriptionList as $item) {
               echo "<li>" . htmlspecialchars($item) . "</li>";
             }
             echo "</ul>";
-            echo "<p><span class='list'>Closing Date:</span> {$closingDate->format('d/m/y')}</p>";
-            echo "<p><span class='list'>Position:</span> $position</p>";
-            echo "<p><span class='list'>Application by:</span> $application</p>";
-            echo "<p><span class='list'>Location:</span> $location</p>";
-          echo '</div>';
-
+            echo "<p>Closing Date: {$closingDate->format('d/m/y')}</p>";
+            echo "<p>Position: $position</p>";
+            echo "<p>Application by: $application</p>";
+            echo "<p>Location: $location</p><hr>";
           }
         }
         fclose($handle); // close the file
@@ -140,20 +126,11 @@
       }
     }
   } else {
-    echo '<p class="process">Please enter a job title.</p>';
+    echo '<p>Please enter a job title.</p>';
   }
   ?>
-  </div>
-  
-  <div class="lastnote">
-    <p class="return"><a href="searchjobform.php"><span>Search for another job vacancy</span></a></p>
-    <p class="return"><a href="index.php"><span>Return to Home Page</span></a></p>
-  </div>
-  <div class="push"></div>
-  </div>
-  <footer class="footer">
-    <p>Copyright @2023</p>
-  </footer>
+  <p><a href="searchjobform.php">Search for another job vacancy</a></p>
+  <p><a href="index.php">Return to Home Page</a></p>
 </body>
 
 </html>
