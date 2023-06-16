@@ -23,9 +23,9 @@
     <ul class="content">
       <li class="detail">The PHP version installed in Mercury is 5.4.16.</li>
       <li class="detail">I have attempted and completed all tasks.</li>
-      <li class="detail">In the special feature section, I have implemented the following enhancements:
+      <li class="detail">In the special feature section, I have implemented the following enhancement(s):
         <ul>
-          <li><span class="list">Automatic listing for the description field: </span> Users can now enter multiple job criteria by simply adding a new line. Each criterion will be added as a separate item in the list, which will be displayed on the search page.</li>
+          <!-- <li><span class="list">Automatic listing for the description field: </span> Users can now enter multiple job criteria by simply adding a new line. Each criterion will be added as a separate item in the list, which will be displayed on the search page.</li> -->
           <li><span class="list">Vietnamese language support:</span> The system now supports job posting and searching in Vietnamese. I have modified the regular expression pattern for post validation to accommodate Vietnamese characters, and implemented a <span class="code">replaceVnese()</span> function to enable search filtering with accurate results.</li>
         </ul>
       </li>
