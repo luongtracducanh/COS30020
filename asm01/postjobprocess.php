@@ -134,6 +134,8 @@
             }
           }
         }
+      } else {
+        echo "<p>Please fill out the form to post a job vacancy.</p>";
       }
       ?>
       <div class="lastnote">
