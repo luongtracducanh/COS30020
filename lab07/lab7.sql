@@ -46,4 +46,4 @@ SELECT make, model FROM cars WHERE price >= 20000.00;
 SELECT make, model FROM cars WHERE price < 15000.00;
 
 -- 5. The average price of cars for similar make.
-SELECT make, AVG(price) FROM cars GROUP BY make;
+SELECT make, AVG(price) as average_price FROM cars GROUP BY make; 
