@@ -80,9 +80,9 @@
     $result = mysqli_stmt_get_result($stmt);
     $row = mysqli_fetch_assoc($result);
     $numOfFriends2 = $row["num_of_friends"];
-    $numOfFriends2--;
 
     // Update the number of friends of the friend
+    $numOfFriends2--;
     $sql = "UPDATE friends SET num_of_friends = ? WHERE friend_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $numOfFriends2, $friendId);
