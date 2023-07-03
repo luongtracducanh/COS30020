@@ -12,12 +12,22 @@
   require_once("settings.php");
 
   // Connect to database
-  $conn = @mysqli_connect($host, $user, $pswd) or die("Connection failed: " . mysqli_connect_error());
-  @mysqli_select_db($conn, $dbnm) or die("Database selection failed: " . mysqli_error($conn));
+  $conn = mysqli_connect($host, $user, $pswd, $dbnm);
+  if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+  }
 
   $mailRegex = "/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/";
-  $profileRegex = "/^[a-zA-Z]+$/";
+  $profileRegex = "/^[a-zA-Z ]+$/";
   $passwordRegex = "/^[a-zA-Z0-9]+$/";
+
+  function sanitizeInput($input)
+  {
+    $input = trim($input);
+    $input = stripslashes($input);
+    $input = htmlspecialchars($input);
+    return $input;
+  }
 
   function validateField($fieldName, $fieldValue, $regex, $errMsg)
   {
@@ -35,9 +45,15 @@
   {
     // Check if email exists in the ‘friends’ table
     global $conn, $table1;
-    $sql = "SELECT friend_email FROM $table1 WHERE friend_email = '$email'";
-    $result = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($result) > 0) {
+    $sql = "SELECT friend_email FROM $table1 WHERE friend_email = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
+    $numRows = mysqli_stmt_num_rows($stmt);
+    mysqli_stmt_close($stmt);
+
+    if ($numRows > 0) {
       echo "<p>Email already exists</p>";
       return false;
     }
@@ -54,31 +70,29 @@
   }
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $mail = validateField("Email", $_POST['email'], $mailRegex, "Email is invalid");
-    $profileName = validateField("Profile Name", $_POST['profileName'], $profileRegex, "Profile Name is invalid");
-    $password = validateField("Password", $_POST['password'], $passwordRegex, "Password is invalid");
-    $confirmPassword = validateField("Confirm Password", $_POST['confirmPassword'], $passwordRegex, "Confirm Password is invalid");
-
-    if ($_POST['password'] !== $_POST['confirmPassword']) {
-      echo "<p>Passwords do not match</p>";
-    }
+    $mail = validateField("Email", sanitizeInput($_POST['email']), $mailRegex, "Email is invalid");
+    $profileName = validateField("Profile Name", sanitizeInput($_POST['profileName']), $profileRegex, "Profile Name is invalid");
+    $password = validateField("Password", sanitizeInput($_POST['password']), $passwordRegex, "Password is invalid");
+    $confirmPassword = validateField("Confirm Password", sanitizeInput($_POST['confirmPassword']), $passwordRegex, "Confirm Password is invalid");
 
     if ($mail && $profileName && $password && $confirmPassword && isEmailUnique($mail) && isPasswordMatch($password, $confirmPassword)) {
-      $sql = "INSERT INTO $table1 (friend_email, password, profile_name, date_started, num_of_friends) VALUES ('$mail', '$password', '$profileName', CURDATE(), 0)";
-      if (mysqli_query($conn, $sql)) {
-        echo "<p>Account successfully created</p>";
+      $sql = "INSERT INTO $table1 (friend_email, password, profile_name, date_started, num_of_friends) VALUES (?, ?, ?, CURDATE(), 0)";
+      $stmt = mysqli_prepare($conn, $sql);
+      mysqli_stmt_bind_param($stmt, "sss", $mail, $password, $profileName);
+      if (mysqli_stmt_execute($stmt)) {
+        // echo "<p>Account successfully created</p>";
+        $msg = "Account successfully created";
+
+        // start the session with the profile name and the number of friends
         session_start();
-        $_SESSION['email'] = $mail;
-        $_SESSION['profileName'] = $profileName;
+        $_SESSION['mail'] = $mail;
         $_SESSION['loggedIn'] = true;
         header("Location: friendadd.php");
-
-        // Close connection
-        mysqli_free_result($result);
-        mysqli_close($conn);
+        exit();
       } else {
         echo "<p style=color:red>Error creating account: " . mysqli_error($conn) . "</p>";
       }
+      mysqli_stmt_close($stmt);
     }
   }
   ?>
