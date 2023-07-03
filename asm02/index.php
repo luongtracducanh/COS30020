@@ -56,6 +56,9 @@
   if ($temp1 && $temp2) {
     echo "<p>Tables sucessfully created and populated.</p>";
   }
+
+  // Close connection
+  mysqli_close($conn);
   ?>
   <p><a href="signup.php">Sign-Up</a></p>
   <p><a href="login.php">Login</a></p>
