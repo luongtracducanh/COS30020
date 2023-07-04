@@ -1,20 +1,3 @@
--- Create friends table
-CREATE TABLE `s103488117_db`.`friends` (
-  `friend_id` INT NOT NULL AUTO_INCREMENT,
-  `friend_email` VARCHAR(50) NOT NULL,
-  `password` VARCHAR(20) NOT NULL,
-  `profile_name` VARCHAR(30) NOT NULL,
-  `date_started` DATE NOT NULL,
-  `num_of_friends` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`friend_id`)
-) ENGINE = InnoDB;
-
--- Create myfriends table
-CREATE TABLE `s103488117_db`.`myfriends` (
-  `friend_id1` INT NOT NULL,
-  `friend_id2` INT NOT NULL
-) ENGINE = InnoDB;
-
 -- Truncate friends table
 TRUNCATE TABLE friends;
 
@@ -33,7 +16,17 @@ VALUES
     (1007, 'friend7@example.com', 'password7', 'Daniel Wilson', '2023-07-07', 2),
     (1008, 'friend8@example.com', 'password8', 'Olivia Brown', '2023-08-12', 2),
     (1009, 'friend9@example.com', 'password9', 'James Taylor', '2023-09-25', 2),
-    (1010, 'friend10@example.com', 'password10', 'Sophia Anderson', '2023-10-31', 1);
+    (1010, 'friend10@example.com', 'password10', 'Sophia Anderson', '2023-10-31', 1),
+    (1011, 'friend11@example.com', 'password11', 'Matthew Wilson', '2023-11-15', 0),
+    (1012, 'friend12@example.com', 'password12', 'Ava Martinez', '2023-12-22', 0),
+    (1013, 'friend13@example.com', 'password13', 'William Garcia', '2024-01-08', 0),
+    (1014, 'friend14@example.com', 'password14', 'Sofia Johnson', '2024-02-18', 0),
+    (1015, 'friend15@example.com', 'password15', 'Benjamin Anderson', '2024-03-03', 0),
+    (1016, 'friend16@example.com', 'password16', 'Mia Davis', '2024-04-11', 0),
+    (1017, 'friend17@example.com', 'password17', 'Henry Thomas', '2024-05-19', 0),
+    (1018, 'friend18@example.com', 'password18', 'Charlotte Moore', '2024-06-29', 0),
+    (1019, 'friend19@example.com', 'password19', 'Joseph Jackson', '2024-07-16', 0),
+    (1020, 'friend20@example.com', 'password20', 'Scarlett White', '2024-08-27', 0);
 
 -- Insert data into myfriends table
 INSERT INTO
