@@ -15,6 +15,12 @@ CREATE TABLE `s103488117_db`.`myfriends` (
   `friend_id2` INT NOT NULL
 ) ENGINE = InnoDB;
 
+-- Truncate friends table
+TRUNCATE TABLE friends;
+
+-- Truncate myfriends table
+TRUNCATE TABLE myfriends;
+
 -- Insert data into friends table
 INSERT INTO friends (friend_id, friend_email, password, profile_name, date_started, num_of_friends)
 VALUES

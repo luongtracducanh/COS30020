@@ -14,4 +14,3 @@ $dbnm = "AWD";
 // tabels used
 $table1 = "friends";
 $table2 = "myfriends";
-?>

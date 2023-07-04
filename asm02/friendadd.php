@@ -39,34 +39,37 @@
   $numOfFriends = $row["num_of_friends"];
   $userId = $row["friend_id"];
 
-  // Get the list of friends of the logged in user
-  $sql = "SELECT f.friend_id, f.profile_name
-          FROM friends AS f
-          INNER JOIN myfriends AS mf ON (f.friend_id = mf.friend_id2)
-          WHERE mf.friend_id1 = ?
-          ORDER BY f.profile_name";
+  // Get the list of people that are not friend of the logged in user
+  $sql = "SELECT friend_id, profile_name
+          FROM friends
+          WHERE friend_id NOT IN (
+            SELECT f.friend_id
+            FROM friends AS f
+            INNER JOIN myfriends AS mf ON (f.friend_id = mf.friend_id2)
+            WHERE mf.friend_id1 = ?
+          ) AND friend_id != ?
+          ORDER BY profile_name";
   $stmt = mysqli_prepare($conn, $sql);
-  mysqli_stmt_bind_param($stmt, "i", $userId);
+  mysqli_stmt_bind_param($stmt, "ii", $userId, $userId);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
 
-  function deleteFriend($friendId)
-  {
+  function addFriend($friendId) {
     global $conn, $numOfFriends, $userId;
 
     // Delete the friend from the myfriends table
-    $sql = "DELETE FROM myfriends WHERE friend_id1 = ? AND friend_id2 = ?";
+    $sql = "INSERT INTO myfriends (friend_id1, friend_id2) VALUES (?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $userId, $friendId);
     mysqli_stmt_execute($stmt);
     // 2-way friendship
-    $sql = "DELETE FROM myfriends WHERE friend_id1 = ? AND friend_id2 = ?";
+    $sql = "INSERT INTO myfriends (friend_id1, friend_id2) VALUES (?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $friendId, $userId);
     mysqli_stmt_execute($stmt);
 
     // Update the number of friends of the logged in user
-    $numOfFriends--;
+    $numOfFriends++;
     $sql = "UPDATE friends SET num_of_friends = ? WHERE friend_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $numOfFriends, $userId);
@@ -82,27 +85,26 @@
     $numOfFriends2 = $row["num_of_friends"];
 
     // Update the number of friends of the friend
-    $numOfFriends2--;
+    $numOfFriends2++;
     $sql = "UPDATE friends SET num_of_friends = ? WHERE friend_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $numOfFriends2, $friendId);
     mysqli_stmt_execute($stmt);
   }
 
-  // Unfriend button
-  if (isset($_POST["unfriend"])) {
-    deleteFriend($_POST["friendId"]);
+  // Add friend button
+  if (isset($_POST["addfriend"])) {
+    addFriend($_POST["friendId"]);
 
     // Redirect to the friendlist page
-    header("Location: friendlist.php");
+    header("Location: friendadd.php");
     exit();
   }
   ?>
-
-  <h1>My Friends System<br><?php echo $profileName ?> Page<br>Total number of friends is <?php echo $numOfFriends ?></h1>
-  <!-- Table displaying friends and unfriend button -->
+  <h1>My Friends System<br><?php echo $profileName ?>'s Add Friend Page<br>Total number of friends is <?php echo $numOfFriends ?></h1>
+  <!-- Table displaying the list and add friend button -->
   <?php
-  // Check if any friends are found
+  // Check if any strangers are found
   if (mysqli_num_rows($result) > 0) {
     echo "<table border=1>";
     // echo "<tr><th>Profile Name</th><th>Action</th></tr>";
@@ -112,22 +114,23 @@
       echo "<tr>";
       echo "<td>{$friendProfileName}</td>";
       echo "<td>
-      <form method='post' action='friendlist.php'>
+      <form method='post' action='friendadd.php'>
         <input type='hidden' name='friendId' value='{$friendId}'>
-        <input type='submit' name='unfriend' value='Unfriend'>
+        <input type='submit' name='addfriend' value='Add as friend'>
       </form>
       </td>";
       echo "</tr>";
     }
     echo "</table>";
   } else {
-    echo "<p>No friend found.</p>";
+    echo "<p>No friend to add.</p>";
   }
 
   mysqli_stmt_close($stmt);
   mysqli_close($conn);
   ?>
-  <p><a href="friendadd.php">Add Friends</a></p>
+  </table>
+  <p><a href="friendlist.php">Friend Lists</a></p>
   <p><a href="logout.php">Log out</a></p>
 </body>
 
