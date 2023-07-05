@@ -5,26 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Friends System</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link rel="stylesheet" href="style/style.css">
 </head>
 
 <body>
   <?php
-  // Task 3: My Friend log in page [login.php] (See Figure 3)
-  // Create a self-calling web page that contains the log in form and validation script.
-  // Requirements:
-  //  On form submit validate the input data, set up the session variable(s) and generates the corresponding
-  // HTML output in response to the user’s input.
-  // o Server-side validation requirements
-  // Email must exists in the ‘friends’ table
-  // Password matches the value in the ‘friends’ table
-  // o If input is valid
-  // Set the session to a successful log in status
-  // Redirect to ‘friendlist.php’ (Task 4)
-  // o If input is invalid
-  //  Display the form again with the original input, except the password, and an error message.
-
   require_once("settings.php");
 
   // Connect to database

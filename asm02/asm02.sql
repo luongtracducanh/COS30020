@@ -52,3 +52,51 @@ VALUES
   (1008, 1006),
   (1009, 1001),
   (1001, 1009);
+
+-- Select people who are not 1001 and not friends with 1001
+SELECT
+  friend_id,
+  profile_name
+FROM
+  friends
+WHERE
+  friend_id NOT IN (
+    SELECT
+      f.friend_id
+    FROM
+      friends AS f
+      INNER JOIN myfriends AS mf ON (f.friend_id = mf.friend_id2)
+    WHERE
+      mf.friend_id1 = 1001
+  )
+  AND friend_id != 1001
+ORDER BY
+  profile_name;
+
+-- Select people who are not 1001 and not friends with 1001 and the number of mutual friends between them and 1001
+SELECT
+  f.friend_id,
+  f.profile_name,
+  COUNT(*) AS mutual_friends
+FROM
+  friends AS f
+  INNER JOIN myfriends AS mf ON (f.friend_id = mf.friend_id2)
+WHERE
+  mf.friend_id1 = 1001
+  AND f.friend_id NOT IN (
+    SELECT
+      f.friend_id
+    FROM
+      friends AS f
+      INNER JOIN myfriends AS mf ON (f.friend_id = mf.friend_id2)
+    WHERE
+      mf.friend_id1 = 1001
+  )
+  AND f.friend_id != 1001
+GROUP BY
+  f.friend_id,
+  f.profile_name
+ORDER BY
+  mutual_friends DESC,
+  profile_name;
+```
