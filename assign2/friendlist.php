@@ -42,8 +42,8 @@
 
   // Get the list of friends of the logged in user
   $sql = "SELECT f.friend_id, f.profile_name
-          FROM friends AS f
-          INNER JOIN myfriends AS mf ON (f.friend_id = mf.friend_id2)
+          FROM $table1 AS f
+          INNER JOIN $table2 AS mf ON (f.friend_id = mf.friend_id2)
           WHERE mf.friend_id1 = ?
           ORDER BY f.profile_name";
   $stmt = mysqli_prepare($conn, $sql);
@@ -53,28 +53,28 @@
 
   function deleteFriend($friendId)
   {
-    global $conn, $numOfFriends, $userId;
+    global $conn, $numOfFriends, $userId, $table1, $table2;
 
     // Delete the friend from the myfriends table
-    $sql = "DELETE FROM myfriends WHERE friend_id1 = ? AND friend_id2 = ?";
+    $sql = "DELETE FROM $table2 WHERE friend_id1 = ? AND friend_id2 = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $userId, $friendId);
     mysqli_stmt_execute($stmt);
     // 2-way friendship
-    $sql = "DELETE FROM myfriends WHERE friend_id1 = ? AND friend_id2 = ?";
+    $sql = "DELETE FROM $table2 WHERE friend_id1 = ? AND friend_id2 = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $friendId, $userId);
     mysqli_stmt_execute($stmt);
 
     // Update the number of friends of the logged in user
     $numOfFriends--;
-    $sql = "UPDATE friends SET num_of_friends = ? WHERE friend_id = ?";
+    $sql = "UPDATE $table1 SET num_of_friends = ? WHERE friend_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $numOfFriends, $userId);
     mysqli_stmt_execute($stmt);
 
     // Get the number of friends of the friend
-    $sql = "SELECT num_of_friends FROM friends WHERE friend_id = ?";
+    $sql = "SELECT num_of_friends FROM $table1 WHERE friend_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $friendId);
     mysqli_stmt_execute($stmt);
@@ -84,7 +84,7 @@
 
     // Update the number of friends of the friend
     $numOfFriends2--;
-    $sql = "UPDATE friends SET num_of_friends = ? WHERE friend_id = ?";
+    $sql = "UPDATE $table1 SET num_of_friends = ? WHERE friend_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $numOfFriends2, $friendId);
     mysqli_stmt_execute($stmt);
