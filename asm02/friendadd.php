@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Friends System</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link rel="stylesheet" href="style/style.css">
 </head>
 
@@ -138,8 +137,10 @@
     while ($row = mysqli_fetch_assoc($result)) {
       $friendId = $row["friend_id"];
       $friendProfileName = $row["profile_name"];
+      $mutualFriendCount = $row["mutual_friend_count"];
       echo "<tr>";
       echo "<td>{$friendProfileName}</td>";
+      echo "<td>{$mutualFriendCount}</td>";
       echo "<td>
       <form method='post' action='friendadd.php'>
         <input type='hidden' name='friendId' value='{$friendId}'>
