@@ -101,7 +101,7 @@
   // Check if any friends are found
   if (mysqli_num_rows($result) > 0) {
     echo "<table border=1>";
-    // echo "<tr><th>Profile Name</th><th>Action</th></tr>";
+    echo "<tr><th>Profile Name</th><th>Action</th></tr>";
     while ($row = mysqli_fetch_assoc($result)) {
       $friendId = $row["friend_id"];
       $friendProfileName = $row["profile_name"];
