@@ -78,8 +78,8 @@
   if (isset($_POST["addfriend"])) {
     addFriend($_POST["friendId"]);
 
-    // Redirect to the friendlist page
-    header("Location: friendadd.php");
+    // keep the current page after adding a friend
+    header("Location: friendadd.php?page={$_POST['page']}");
     exit();
   }
 
@@ -134,6 +134,7 @@
   <?php
   if (mysqli_num_rows($result) > 0) {
     echo "<table border='1'>";
+    echo "<tr><th>Profile Name</th><th>Mutual Friends</th><th>Action</th></tr>";
     while ($row = mysqli_fetch_assoc($result)) {
       $friendId = $row["friend_id"];
       $friendProfileName = $row["profile_name"];
@@ -144,6 +145,7 @@
       echo "<td>
       <form method='post' action='friendadd.php'>
         <input type='hidden' name='friendId' value='{$friendId}'>
+        <input type='hidden' name='page' value='{$currentPage}'>
         <input type='submit' name='addfriend' value='Add as friend'>
       </form>
       </td>";
