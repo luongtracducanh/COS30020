@@ -74,7 +74,7 @@
 
     // Execute the query and check for any errors
     if (mysqli_query($conn, $sql4)) {
-      echo "<p style=color:green>Sample data inserted to table $table1 successfully.</p>";
+      echo "<p style=color:green>Sample data populated to table $table1 successfully.</p>";
     } else {
       echo "<p style=color:red>Error inserting data: " . mysqli_error($conn) . "</p>";
     }
@@ -112,7 +112,7 @@
 
     // Execute the query and check for any errors
     if (mysqli_query($conn, $sql4)) {
-      echo "<p style=color:green>Sample data inserted to table $table2 successfully.</p>";
+      echo "<p style=color:green>Sample data populated to table $table2 successfully.</p>";
     } else {
       echo "<p style=color:red>Error inserting data: " . mysqli_error($conn) . "</p>";
     }
