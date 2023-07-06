@@ -44,8 +44,7 @@
   $sql = "SELECT f.friend_id, f.profile_name
           FROM $table1 AS f
           INNER JOIN $table2 AS mf ON (f.friend_id = mf.friend_id2)
-          WHERE mf.friend_id1 = ?
-          ORDER BY f.profile_name";
+          WHERE mf.friend_id1 = ?";
   $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_bind_param($stmt, "i", $userId);
   mysqli_stmt_execute($stmt);

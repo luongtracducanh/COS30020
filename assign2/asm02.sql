@@ -7,16 +7,16 @@ TRUNCATE TABLE myfriends;
 -- Insert data into friends table
 INSERT INTO friends (friend_id, friend_email, password, profile_name, date_started, num_of_friends)
 VALUES
-    (1001, 'friend1@example.com', 'password1', 'John Doe', '2023-01-01', 2),
-    (1002, 'friend2@example.com', 'password2', 'Jane Smith', '2023-02-15', 2),
-    (1003, 'friend3@example.com', 'password3', 'Michael Johnson', '2023-03-10', 2),
-    (1004, 'friend4@example.com', 'password4', 'Sarah Thompson', '2023-04-22', 2),
-    (1005, 'friend5@example.com', 'password5', 'David Lee', '2023-05-05', 2),
-    (1006, 'friend6@example.com', 'password6', 'Emily Davis', '2023-06-18', 2),
-    (1007, 'friend7@example.com', 'password7', 'Daniel Wilson', '2023-07-07', 2),
-    (1008, 'friend8@example.com', 'password8', 'Olivia Brown', '2023-08-12', 2),
-    (1009, 'friend9@example.com', 'password9', 'James Taylor', '2023-09-25', 2),
-    (1010, 'friend10@example.com', 'password10', 'Sophia Anderson', '2023-10-31', 2);
+  (1001, 'friend1@example.com', 'password1', 'John Doe', '2023-01-01', 2),
+  (1002, 'friend2@example.com', 'password2', 'Jane Smith', '2023-02-15', 2),
+  (1003, 'friend3@example.com', 'password3', 'Michael Johnson', '2023-03-10', 2),
+  (1004, 'friend4@example.com', 'password4', 'Sarah Thompson', '2023-04-22', 2),
+  (1005, 'friend5@example.com', 'password5', 'David Lee', '2023-05-05', 2),
+  (1006, 'friend6@example.com', 'password6', 'Emily Davis', '2023-06-18', 2),
+  (1007, 'friend7@example.com', 'password7', 'Daniel Wilson', '2023-07-07', 2),
+  (1008, 'friend8@example.com', 'password8', 'Olivia Brown', '2023-08-12', 2),
+  (1009, 'friend9@example.com', 'password9', 'James Taylor', '2023-09-25', 2),
+  (1010, 'friend10@example.com', 'password10', 'Sophia Anderson', '2023-10-31', 2);
 
 -- Insert data into myfriends table
 INSERT INTO
@@ -42,14 +42,3 @@ VALUES
   (1001, 1009),
   (1003, 1010),
   (1010, 1003);
-
--- Select people who are not 1001 and not friends with 1001
-SELECT friend_id, profile_name
-  FROM friends
-  WHERE friend_id NOT IN (
-    SELECT f.friend_id
-    FROM friends AS f
-    INNER JOIN myfriends AS mf ON (f.friend_id = mf.friend_id2)
-    WHERE mf.friend_id1 = 1001
-  ) AND friend_id != 1001
-  ORDER BY profile_name;
