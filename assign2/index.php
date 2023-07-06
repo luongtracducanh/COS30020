@@ -16,8 +16,6 @@
   <p>I declare that this assignment is my individual work. I have not worked collaboratively nor have I copied from any other students work or from any other source.</p>
   <?php
   require_once("settings.php");
-  $temp1 = false;
-  $temp2 = false;
 
   // Connect to database
   $conn = @mysqli_connect($host, $user, $pswd) or die("Connection failed: " . mysqli_connect_error());
@@ -32,11 +30,11 @@
     date_started DATE NOT NULL,
     num_of_friends INT UNSIGNED NOT NULL,
     PRIMARY KEY (friend_id)
-  ) ENGINE = InnoDB;";
+  )";
 
   // Execute the query and check for any errors
   if (mysqli_query($conn, $sql1)) {
-    $temp1 = true;
+    echo "<p style=color:green>Table $table1 created successfully.</p>";
   } else {
     echo "<p style=color:red>Error creating table: " . mysqli_error($conn) . "</p>";
   }
@@ -45,17 +43,79 @@
   $sql2 = "CREATE TABLE IF NOT EXISTS $table2 (
     friend_id1 INT NOT NULL,
     friend_id2 INT NOT NULL
-  ) ENGINE = InnoDB;";
+  )";
 
   // Execute the query and check for any errors
   if (mysqli_query($conn, $sql2)) {
-    $temp2 = true;
+    echo "<p style=color:green>Table $table2 created successfully.</p>";
   } else {
     echo "<p style=color:red>Error creating table: " . mysqli_error($conn) . "</p>";
   }
 
-  if ($temp1 && $temp2) {
-    echo "<p>Tables sucessfully created and populated.</p>";
+  // Check if table "friends" is empty
+  $sql3 = "SELECT * FROM $table1";
+  $result = mysqli_query($conn, $sql3);
+  if (mysqli_num_rows($result) > 0) {
+    echo "<p style=color:green>Table $table1 already has data.</p>";
+  } else {
+    // Insert sample data to table "friends"
+    $sql4 = "INSERT INTO $table1 (friend_email, password, profile_name, date_started, num_of_friends)
+    VALUES
+      ('friend1@example.com', 'password1', 'John Doe', '2023-01-01', 4),
+      ('friend2@example.com', 'password2', 'Jane Smith', '2023-02-15', 4),
+      ('friend3@example.com', 'password3', 'Michael Johnson', '2023-03-10', 4),
+      ('friend4@example.com', 'password4', 'Sarah Thompson', '2023-04-22', 4),
+      ('friend5@example.com', 'password5', 'David Lee', '2023-05-05', 4),
+      ('friend6@example.com', 'password6', 'Emily Davis', '2023-06-18', 4),
+      ('friend7@example.com', 'password7', 'Daniel Wilson', '2023-07-07', 4),
+      ('friend8@example.com', 'password8', 'Olivia Brown', '2023-08-12', 4),
+      ('friend9@example.com', 'password9', 'James Taylor', '2023-09-25', 4),
+      ('friend10@example.com', 'password10', 'Sophia Anderson', '2023-10-31', 4)";
+
+    // Execute the query and check for any errors
+    if (mysqli_query($conn, $sql4)) {
+      echo "<p style=color:green>Sample data inserted to table $table1 successfully.</p>";
+    } else {
+      echo "<p style=color:red>Error inserting data: " . mysqli_error($conn) . "</p>";
+    }
+  }
+
+  // Check if table "myfriends" is empty
+  $sql5 = "SELECT * FROM $table2";
+  $result = mysqli_query($conn, $sql5);
+  if (mysqli_num_rows($result) > 0) {
+    echo "<p style=color:green>Table $table2 already has data.</p>";
+  } else {
+    // Insert sample data to table "myfriends"
+    $sql4 = "INSERT INTO myfriends (friend_id1, friend_id2)
+    VALUES
+      (1, 2),
+      (2, 3),
+      (3, 4),
+      (4, 5),
+      (5, 6),
+      (6, 7),
+      (7, 8),
+      (8, 9),
+      (9, 10),
+      (10, 1),
+      (1, 3),
+      (2, 4),
+      (3, 5),
+      (4, 6),
+      (5, 7),
+      (6, 8),
+      (7, 9),
+      (8, 10),
+      (9, 1),
+      (10, 2)";
+
+    // Execute the query and check for any errors
+    if (mysqli_query($conn, $sql4)) {
+      echo "<p style=color:green>Sample data inserted to table $table2 successfully.</p>";
+    } else {
+      echo "<p style=color:red>Error inserting data: " . mysqli_error($conn) . "</p>";
+    }
   }
 
   // Close connection

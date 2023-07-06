@@ -49,11 +49,6 @@
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $userId, $friendId);
     mysqli_stmt_execute($stmt);
-    // 2-way friendship
-    $sql = "INSERT INTO $table2 (friend_id1, friend_id2) VALUES (?, ?)";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ii", $friendId, $userId);
-    mysqli_stmt_execute($stmt);
 
     // Update the number of friends of the logged in user
     $numOfFriends++;
@@ -92,16 +87,19 @@
   $limit = 5; // Number of names per page
 
   // Get number of accounts that are not friends of the logged in user
-  $sql = "SELECT COUNT(friend_id) AS total_names
-          FROM friends
-          WHERE friend_id NOT IN (
-            SELECT f.friend_id
-            FROM $table1 AS f
-            INNER JOIN $table2 AS mf ON (f.friend_id = mf.friend_id2)
-            WHERE mf.friend_id1 = ?
-          ) AND friend_id != ?";
+  $sql = "SELECT COUNT(f.friend_id) AS total_names
+          FROM $table1 f
+          WHERE f.friend_id != ?
+            AND f.friend_id NOT IN (
+              SELECT mf.friend_id1
+              FROM $table2 mf
+              WHERE mf.friend_id2 = ?)
+            AND f.friend_id NOT IN (
+              SELECT mf.friend_id2
+              FROM $table2 mf
+              WHERE mf.friend_id1 = ?)";
   $stmt = mysqli_prepare($conn, $sql);
-  mysqli_stmt_bind_param($stmt, "ii", $userId, $userId);
+  mysqli_stmt_bind_param($stmt, "iii", $userId, $userId, $userId);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
   $row = mysqli_fetch_assoc($result);
@@ -113,18 +111,20 @@
   $offset = ($currentPage - 1) * $limit;
 
   // Retrieve friends for the current page
-  $sql = "SELECT friend_id, profile_name
-          FROM friends
-          WHERE friend_id NOT IN (
-            SELECT f.friend_id
-            FROM $table1 AS f
-            INNER JOIN $table2 AS mf ON (f.friend_id = mf.friend_id2)
-            WHERE mf.friend_id1 = ?
-          ) AND friend_id != ?
-          ORDER BY profile_name
-          LIMIT ?, ?";
+  $sql = "SELECT f.friend_id, f.profile_name
+          FROM $table1 f
+          WHERE f.friend_id != ?
+            AND f.friend_id NOT IN (
+              SELECT mf.friend_id1
+              FROM $table2 mf
+              WHERE mf.friend_id2 = ?)
+            AND f.friend_id NOT IN (
+              SELECT mf.friend_id2
+              FROM $table2 mf
+              WHERE mf.friend_id1 = ?)
+              LIMIT ?, ?";
   $stmt = mysqli_prepare($conn, $sql);
-  mysqli_stmt_bind_param($stmt, "iiii", $userId, $userId, $offset, $limit);
+  mysqli_stmt_bind_param($stmt, "iiiii", $userId, $userId, $userId, $offset, $limit);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
 
@@ -158,10 +158,10 @@
       echo "<a href='friendadd.php?page={$previousPage}'>Previous</a>&nbsp;";
     }
 
-    for ($i = 1; $i <= $totalPages; $i++) {
-      $activeClass = ($i == $currentPage) ? 'active' : '';
-      echo "<a href='friendadd.php?page={$i}' class='{$activeClass}'>$i</a>&nbsp;";
-    }
+    // for ($i = 1; $i <= $totalPages; $i++) {
+    //   $activeClass = ($i == $currentPage) ? 'active' : '';
+    //   echo "<a href='friendadd.php?page={$i}' class='{$activeClass}'>$i</a>&nbsp;";
+    // }
 
     if ($currentPage < $totalPages) {
       $nextPage = $currentPage + 1;

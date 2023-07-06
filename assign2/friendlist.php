@@ -42,11 +42,12 @@
 
   // Get the list of friends of the logged in user
   $sql = "SELECT f.friend_id, f.profile_name
-          FROM $table1 AS f
-          INNER JOIN $table2 AS mf ON (f.friend_id = mf.friend_id2)
-          WHERE mf.friend_id1 = ?";
+          FROM $table1 f JOIN $table2 mf 
+          ON f.friend_id = mf.friend_id1 OR f.friend_id = mf.friend_id2
+          WHERE (mf.friend_id1 = ? OR mf.friend_id2 = ?) 
+          AND f.friend_id != ?";
   $stmt = mysqli_prepare($conn, $sql);
-  mysqli_stmt_bind_param($stmt, "i", $userId);
+  mysqli_stmt_bind_param($stmt, "iii", $userId, $userId, $userId);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
 
@@ -55,14 +56,9 @@
     global $conn, $numOfFriends, $userId, $table1, $table2;
 
     // Delete the friend from the myfriends table
-    $sql = "DELETE FROM $table2 WHERE friend_id1 = ? AND friend_id2 = ?";
+    $sql = "DELETE FROM $table2 WHERE (friend_id1 = ? AND friend_id2 = ?) OR (friend_id1 = ? AND friend_id2 = ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ii", $userId, $friendId);
-    mysqli_stmt_execute($stmt);
-    // 2-way friendship
-    $sql = "DELETE FROM $table2 WHERE friend_id1 = ? AND friend_id2 = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ii", $friendId, $userId);
+    mysqli_stmt_bind_param($stmt, "iiii", $userId, $friendId, $friendId, $userId);
     mysqli_stmt_execute($stmt);
 
     // Update the number of friends of the logged in user
