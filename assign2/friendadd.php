@@ -138,7 +138,23 @@
     while ($row = mysqli_fetch_assoc($result)) {
       $friendId = $row["friend_id"];
       $friendProfileName = $row["profile_name"];
-      $mutualFriendCount = @$row["mutual_friend_count"];
+      // get mutual friends count
+      $sql2 = "SELECT friend_id, COUNT(*) AS mutual_friend_count
+      FROM $table1 AS f JOIN $table2 AS mf
+      ON (f.friend_id = mf.friend_id1 AND mf.friend_id2 = {$row['friend_id']})
+      OR (f.friend_id = mf.friend_id2 AND mf.friend_id1 = {$row['friend_id']})
+      WHERE f.friend_id != ?
+      AND f.friend_id IN (
+        SELECT friend_id1 FROM $table2 WHERE friend_id2 = $userId
+        UNION SELECT friend_id2 FROM $table2 WHERE friend_id1 = $userId
+      )";
+      $stmt = mysqli_prepare($conn, $sql2);
+      mysqli_stmt_bind_param($stmt, "i", $userId);
+      mysqli_stmt_execute($stmt);
+      $result2 = mysqli_stmt_get_result($stmt);
+      $row = mysqli_fetch_assoc($result2);
+
+      $mutualFriendCount = $row["mutual_friend_count"];
       echo "<tr>";
       echo "<td>{$friendProfileName}</td>";
       echo "<td>{$mutualFriendCount} mutual friends</td>";
