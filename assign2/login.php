@@ -13,10 +13,8 @@
   require_once("settings.php");
 
   // Connect to database
-  $conn = mysqli_connect($host, $user, $pswd, $dbnm);
-  if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-  }
+  $conn = @mysqli_connect($host, $user, $pswd) or die("Connection failed: " . mysqli_connect_error());
+  @mysqli_select_db($conn, $dbnm) or die("Database selection failed: " . mysqli_error($conn));
 
   function validateField($fieldName, $fieldValue)
   {
@@ -52,7 +50,6 @@
       mysqli_stmt_bind_result($stmt, $dbEmail, $dbPassword);
       mysqli_stmt_fetch($stmt);
       if ($dbPassword === $inputPassword) {
-        echo "<p>Log in successful</p>";
         // Set up session variable(s) and redirect to friendlist.php
         session_start();
         $_SESSION['email'] = $inputEmail;

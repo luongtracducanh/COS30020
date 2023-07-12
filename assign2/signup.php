@@ -13,11 +13,10 @@
   require_once("settings.php");
 
   // Connect to database
-  $conn = mysqli_connect($host, $user, $pswd, $dbnm);
-  if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-  }
+  $conn = @mysqli_connect($host, $user, $pswd) or die("Connection failed: " . mysqli_connect_error());
+  @mysqli_select_db($conn, $dbnm) or die("Database selection failed: " . mysqli_error($conn));
 
+  $mail = $profileName = $password = $confirmPassword = null;
   $mailRegex = "/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/";
   $profileRegex = "/^[a-zA-Z ]+$/";
   $passwordRegex = "/^[a-zA-Z0-9]+$/";
@@ -33,16 +32,16 @@
   function validateField($fieldName, $fieldValue, $regex, $errMsg)
   {
     if (empty($fieldValue)) {
-      echo "<p>$fieldName is empty</p>";
+      echo "<span>$fieldName is empty</span>";
     } else if (!preg_match($regex, $fieldValue)) {
-      echo "<p>$errMsg</p>";
+      echo "<span>$errMsg</span>";
     } else {
       return $fieldValue;
     }
     return null;
   }
 
-  function isEmailUnique($email)
+  function checkUniqueEmail($email)
   {
     // Check if email exists in the ‘friends’ table
     global $conn, $table1;
@@ -55,34 +54,65 @@
     mysqli_stmt_close($stmt);
 
     if ($numRows > 0) {
-      echo "<p>Email already exists</p>";
+      echo "<span>Email already exists</span>";
       return false;
     }
     return true;
   }
 
-  function isPasswordMatch($password, $confirmPassword)
+  function checkMatchPasswords($password, $confirmPassword)
   {
     if ($password !== $confirmPassword) {
-      echo "<p>Passwords do not match</p>";
+      echo "<span>Passwords do not match</span>";
       return false;
     }
     return true;
   }
+  ?>
 
-  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $mail = validateField("Email", sanitizeInput($_POST['email']), $mailRegex, "Email is invalid");
-    $profileName = validateField("Profile Name", sanitizeInput($_POST['profileName']), $profileRegex, "Profile Name is invalid");
-    $password = validateField("Password", sanitizeInput($_POST['password']), $passwordRegex, "Password is invalid");
-    $confirmPassword = validateField("Confirm Password", sanitizeInput($_POST['confirmPassword']), $passwordRegex, "Confirm Password is invalid");
-
-    if ($mail && $profileName && $password && $confirmPassword && isEmailUnique($mail) && isPasswordMatch($password, $confirmPassword)) {
+  <h1>My Friends System<br>Registration Page</h1>
+  <form method="post" action="signup.php">
+    <p><label for="email">Email</label>
+      <input name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
+      <?php
+      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $mail = validateField("Email", sanitizeInput($_POST['email']), $mailRegex, "Email is invalid");
+        $isMailUnique = checkUniqueEmail($mail);
+      }
+      ?>
+    </p>
+    <p><label for="profileName">Profile Name</label>
+      <input name="profileName" value="<?php echo isset($_POST['profileName']) ? htmlspecialchars($_POST['profileName']) : ''; ?>">
+      <?php
+      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $profileName = validateField("Profile Name", sanitizeInput($_POST['profileName']), $profileRegex, "Profile Name is invalid");
+      }
+      ?>
+    </p>
+    <p><label for="password">Password</label>
+      <input type="password" name="password">
+      <?php
+      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $password = validateField("Password", sanitizeInput($_POST['password']), $passwordRegex, "Password is invalid");
+      }
+      ?>
+    </p>
+    <p><label for="confirmPassword">Confirm Password</label>
+      <input type="password" name="confirmPassword">
+      <?php
+      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $confirmPassword = validateField("Confirm Password", sanitizeInput($_POST['confirmPassword']), $passwordRegex, "Confirm Password is invalid");
+        $arePasswordsMatch = checkMatchPasswords($password, $confirmPassword);
+      }
+      ?>
+    </p>
+    <?php
+    if ($mail && $profileName && $password && $confirmPassword && $isMailUnique && $arePasswordsMatch) {
       $sql = "INSERT INTO $table1 (friend_email, password, profile_name, date_started, num_of_friends) VALUES (?, ?, ?, CURDATE(), 0)";
       $stmt = mysqli_prepare($conn, $sql);
       mysqli_stmt_bind_param($stmt, "sss", $mail, $password, $profileName);
       if (mysqli_stmt_execute($stmt)) {
-        // echo "<p>Account successfully created</p>";
-        $msg = "Account successfully created";
+        echo "<p>Account successfully created</p>";
 
         // start the session with the profile name and the number of friends
         session_start();
@@ -95,30 +125,12 @@
       }
       mysqli_stmt_close($stmt);
     }
-  }
-  ?>
-
-  <h1>My Friends System<br>Registration Page</h1>
-  <form method="post" action="signup.php">
-    <p><label for="email">Email</label>
-      <input name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
-    </p>
-    <p><label for="profileName">Profile Name</label>
-      <input name="profileName" value="<?php echo isset($_POST['profileName']) ? htmlspecialchars($_POST['profileName']) : ''; ?>">
-    </p>
-    <p><label for="password">Password</label>
-      <input type="password" name="password">
-    </p>
-    <p><label for="confirmPassword">Confirm Password</label>
-      <input type="password" name="confirmPassword">
-    </p>
+    ?>
     <p><input type="submit" value="Register">
       <input type="reset" value="Clear">
     </p>
   </form>
   <p><a href="index.php">Home</a></p>
-
-
 </body>
 
 </html>

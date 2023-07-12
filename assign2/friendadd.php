@@ -21,11 +21,9 @@
 
   require_once("settings.php");
 
-  // Connect to the database
-  $conn = mysqli_connect($host, $user, $pswd, $dbnm);
-  if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-  }
+  // Connect to database
+  $conn = @mysqli_connect($host, $user, $pswd) or die("Connection failed: " . mysqli_connect_error());
+  @mysqli_select_db($conn, $dbnm) or die("Database selection failed: " . mysqli_error($conn));
 
   // Query the result for profile name and number of friends
   $sql = "SELECT friend_id, profile_name, num_of_friends FROM friends WHERE friend_email = ?";
