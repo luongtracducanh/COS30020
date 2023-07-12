@@ -16,7 +16,7 @@
   $conn = @mysqli_connect($host, $user, $pswd) or die("Connection failed: " . mysqli_connect_error());
   @mysqli_select_db($conn, $dbnm) or die("Database selection failed: " . mysqli_error($conn));
 
-  $mail = $profileName = $password = $confirmPassword = null;
+  $mail = $profileName = $password = null;
   $mailRegex = "/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/";
   $profileRegex = "/^[a-zA-Z ]+$/";
   $passwordRegex = "/^[a-zA-Z0-9]+$/";
@@ -101,13 +101,12 @@
       <input type="password" name="confirmPassword">
       <?php
       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $confirmPassword = validateField("Confirm Password", sanitizeInput($_POST['confirmPassword']), $passwordRegex, "Confirm Password is invalid");
-        $arePasswordsMatch = checkMatchPasswords($password, $confirmPassword);
+        $arePasswordsMatch = checkMatchPasswords($password, sanitizeInput($_POST['confirmPassword']));
       }
       ?>
     </p>
     <?php
-    if ($mail && $profileName && $password && $confirmPassword && $isMailUnique && $arePasswordsMatch) {
+    if ($mail && $profileName && $password && $isMailUnique && $arePasswordsMatch) {
       $sql = "INSERT INTO $table1 (friend_email, password, profile_name, date_started, num_of_friends) VALUES (?, ?, ?, CURDATE(), 0)";
       $stmt = mysqli_prepare($conn, $sql);
       mysqli_stmt_bind_param($stmt, "sss", $mail, $password, $profileName);
