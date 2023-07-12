@@ -16,7 +16,9 @@
   $conn = @mysqli_connect($host, $user, $pswd) or die("Connection failed: " . mysqli_connect_error());
   @mysqli_select_db($conn, $dbnm) or die("Database selection failed: " . mysqli_error($conn));
 
+  // initialize variables
   $mail = $profileName = $password = null;
+  // regexes for email, profile name, and password
   $mailRegex = "/^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/";
   $profileRegex = "/^[a-zA-Z ]+$/";
   $passwordRegex = "/^[a-zA-Z0-9]+$/";
