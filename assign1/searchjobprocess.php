@@ -97,7 +97,7 @@
               echo "<p class='process'>No up-to-date job vacancy found.</p>";
             } else {
               // sort the job vacancies by closing date in descending order
-              usort($jobVacancies, function ($a, $b) {
+              usort($jobVacancies, function ($b, $a) {
                 if ($a['closingDate'] < $b['closingDate']) {
                   return -1;
                 } elseif ($a['closingDate'] > $b['closingDate']) {
