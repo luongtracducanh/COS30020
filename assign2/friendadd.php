@@ -177,10 +177,10 @@
     }
 
     // page numbers for pagination
-    // for ($i = 1; $i <= $totalPages; $i++) {
-    //   $activeClass = ($i == $currentPage) ? 'active' : '';
-    //   echo "<a href='friendadd.php?page={$i}' class='{$activeClass}'>$i</a>&nbsp;";
-    // }
+    for ($i = 1; $i <= $totalPages; $i++) {
+      $activeClass = ($i == $currentPage) ? 'active' : '';
+      echo "<a href='friendadd.php?page={$i}' class='{$activeClass}'>$i</a>&nbsp;";
+    }
 
     if ($currentPage < $totalPages) {
       $nextPage = $currentPage + 1;
