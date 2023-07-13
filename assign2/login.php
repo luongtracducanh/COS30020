@@ -60,6 +60,7 @@
       ?>
     </p>
     <?php
+    // Check if the user has submitted the form
     if ($inputEmail && $inputPassword) {
       $sql = "SELECT friend_email, password FROM $table1 WHERE friend_email = ?";
       $stmt = mysqli_prepare($conn, $sql);

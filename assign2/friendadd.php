@@ -38,6 +38,7 @@
   $numOfFriends = $row["num_of_friends"];
   $userId = $row["friend_id"];
 
+  // Add friend function
   function addFriend($friendId)
   {
     global $conn, $numOfFriends, $userId, $table1, $table2;
@@ -152,6 +153,7 @@
       $result2 = mysqli_stmt_get_result($stmt);
       $row = mysqli_fetch_assoc($result2);
 
+      // Display the queried data
       $mutualFriendCount = $row["mutual_friend_count"];
       echo "<tr>";
       echo "<td>{$friendProfileName}</td>";
@@ -174,6 +176,7 @@
       echo "<a href='friendadd.php?page={$previousPage}'>Previous</a>&nbsp;";
     }
 
+    // page numbers for pagination
     // for ($i = 1; $i <= $totalPages; $i++) {
     //   $activeClass = ($i == $currentPage) ? 'active' : '';
     //   echo "<a href='friendadd.php?page={$i}' class='{$activeClass}'>$i</a>&nbsp;";
