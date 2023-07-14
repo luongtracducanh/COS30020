@@ -14,3 +14,16 @@ $dbnm = "AWD";
 // tabels used
 $table1 = "friends";
 $table2 = "myfriends";
+
+// Connect to database
+try {
+  $conn = @mysqli_connect($host, $user, $pswd, $dbnm);
+} catch (mysqli_sql_exception $e) {
+  // Get error message
+  $errMsg = $e->getMessage();
+  session_start();
+  // Store error message in session variable and redirect to error page
+  $_SESSION["errMsg"] = $errMsg;
+  header("Location: error.php");
+  exit();
+}

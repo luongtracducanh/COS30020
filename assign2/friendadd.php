@@ -12,13 +12,6 @@
   <?php
   session_start();
 
-  // Check if the user is logged in
-  if (!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] !== true) {
-    // Redirect to the login page
-    header("Location: login.php");
-    exit();
-  }
-
   require_once("settings.php");
 
   // Connect to database

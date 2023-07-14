@@ -17,10 +17,6 @@
   <?php
   require_once("settings.php");
 
-  // Connect to database
-  $conn = @mysqli_connect($host, $user, $pswd) or die("Connection failed: " . mysqli_connect_error());
-  @mysqli_select_db($conn, $dbnm) or die("Database selection failed: " . mysqli_error($conn));
-
   // Create table "friends" if not exists
   $sql1 = "CREATE TABLE IF NOT EXISTS $table1 (
     friend_id INT NOT NULL AUTO_INCREMENT,
