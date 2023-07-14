@@ -11,6 +11,12 @@ $dbnm = "AWD";
 // $pswd = "181203";
 // $dbnm = "s103488117_db";
 
+// 000webhost server
+// $host = "localhost";
+// $user = "id21037306_ducanh";
+// $pswd = "Tomato1309*";
+// $dbnm = "id21037306_awd";
+
 // tabels used
 $table1 = "friends";
 $table2 = "myfriends";
