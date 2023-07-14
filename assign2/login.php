@@ -13,8 +13,7 @@
   require_once("settings.php");
 
   // initialize variables
-  $inputEmail = $inputPassword = null;
-  $msg1 = $msg2 = $msg3 = $msg4 = null;
+  $inputEmail = $inputPassword = $msg1 = $msg2 = $msg3 = $msg4 = null;
 
   // function for validating fields
   function validateField($fieldName, $fieldValue)
