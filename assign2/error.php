@@ -20,8 +20,11 @@
     echo "<p>No error encountered. Redirecting to the home page...</p>";
   }
 
-  // Redirect to logout page to unset all session variables
-  // If no error message is set, redirect to home page
+  // Redirect to logout page to: 
+  // - unset all session variables
+  // - redirect to the home page
+  // - home page will redirect to error page if there is an error
+  // - keep this loop unless there is no error
   header("Refresh: 1; URL=logout.php");
   ?>
 </body>
