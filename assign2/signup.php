@@ -109,8 +109,6 @@
       $stmt = mysqli_prepare($conn, $sql);
       mysqli_stmt_bind_param($stmt, "sss", $mail, $password, $profileName);
       if (mysqli_stmt_execute($stmt)) {
-        echo "<p>Account successfully created</p>";
-
         // start the session with the profile name and the number of friends
         session_start();
         $_SESSION['email'] = $mail;
