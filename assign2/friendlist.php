@@ -86,7 +86,7 @@
   }
   ?>
 
-  <h1>My Friends System<br><?php echo $profileName ?> Page<br>Total number of friends is <?php echo $numOfFriends ?></h1>
+  <h1>My Friends System<br><?php echo $profileName ?>'s Friend List Page<br>Total number of friends is <?php echo $numOfFriends ?></h1>
   <!-- Table displaying friends and unfriend button -->
   <?php
   // Check if any friends are found
