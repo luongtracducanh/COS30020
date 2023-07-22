@@ -24,8 +24,8 @@
 
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // $host = "feenix-mariadb.swin.edu.au";
-  $host = "localhost";
+  $host = "feenix-mariadb.swin.edu.au";
+  // $host = "localhost";
   if (isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["dbname"]) && !empty($_POST["username"]) && !empty($_POST["password"]) && !empty($_POST["dbname"])) {
     $username = $_POST["username"];
     $password = $_POST["password"];
