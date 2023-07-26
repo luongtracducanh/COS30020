@@ -21,24 +21,12 @@ $dbnm = "AWD";
 $table1 = "friends";
 $table2 = "myfriends";
 
-// Connect to database later versions of PHP
+// Connect to database
 try {
   $conn = @mysqli_connect($host, $user, $pswd, $dbnm);
 } catch (mysqli_sql_exception $e) {
   // Get error message
   $errMsg = $e->getMessage();
-  session_start();
-  // Store error message in session variable and redirect to error page
-  $_SESSION["errMsg"] = $errMsg;
-  header("Location: error.php");
-  exit();
-}
-
-// Connect to database on PHP 5.4.16
-$conn = @mysqli_connect($host, $user, $pswd, $dbnm);
-if (!$conn) {
-  // Get error message
-  $errMsg = mysqli_connect_error();
   session_start();
   // Store error message in session variable and redirect to error page
   $_SESSION["errMsg"] = $errMsg;

@@ -6,11 +6,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Friends System</title>
   <link rel="stylesheet" href="style/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
 </head>
 
-<body>
+<body class="bg-image">
+  <div " class=" header">
+    <h1>My Friends System</h1>
+    <div class="nav">
+      <ul>
+        <li class="nav-link"> <a href="friendlist.php"> List friends </a></li>
+        <li class="nav-link"> <a href="logout.php"> Log out </a></li>
+      </ul>
+    </div>
+  </div>
   <?php
   session_start();
+
+  // Check if the user is logged in using session email and loggedIn session variable
+  if (!isset($_SESSION["email"]) || !isset($_SESSION["loggedIn"])) {
+    // Redirect to the login page
+    header("Location: login.php");
+    exit();
+  }
 
   require_once("settings.php");
 
@@ -117,75 +134,89 @@
   $result = mysqli_stmt_get_result($stmt);
 
   ?>
-  <h1>My Friends System<br><?php echo $profileName ?>'s Add Friend Page<br>Total number of friends is <?php echo $numOfFriends ?></h1>
-  <!-- Table displaying the list and add friend button -->
-  <?php
-  if (mysqli_num_rows($result) > 0) {
-    echo "<table border='1'>";
-    echo "<tr><th>Profile Name</th><th>Mutual Friends</th><th>Action</th></tr>";
-    while ($row = mysqli_fetch_assoc($result)) {
-      $friendId = $row["friend_id"];
-      $friendProfileName = $row["profile_name"];
-      // get mutual friends count
-      $sql2 = "SELECT friend_id, COUNT(*) AS mutual_friend_count
-      FROM $table1 AS f JOIN $table2 AS mf
-      ON (f.friend_id = mf.friend_id1 AND mf.friend_id2 = {$row['friend_id']})
-      OR (f.friend_id = mf.friend_id2 AND mf.friend_id1 = {$row['friend_id']})
-      WHERE f.friend_id != ?
-      AND f.friend_id IN (
-        SELECT friend_id1 FROM $table2 WHERE friend_id2 = $userId
-        UNION SELECT friend_id2 FROM $table2 WHERE friend_id1 = $userId
-      )";
-      $stmt = mysqli_prepare($conn, $sql2);
-      mysqli_stmt_bind_param($stmt, "i", $userId);
-      mysqli_stmt_execute($stmt);
-      $result2 = mysqli_stmt_get_result($stmt);
-      $row = mysqli_fetch_assoc($result2);
 
-      // Display the queried data
-      $mutualFriendCount = $row["mutual_friend_count"];
-      echo "<tr>";
-      echo "<td>{$friendProfileName}</td>";
-      echo "<td>{$mutualFriendCount} mutual friends</td>";
-      echo "<td>
-      <form method='post' action='friendadd.php'>
-        <input type='hidden' name='friendId' value='{$friendId}'>
-        <input type='hidden' name='page' value='{$currentPage}'>
-        <input type='submit' name='addfriend' value='Add as friend'>
-      </form>
-      </td>";
-      echo "</tr>";
-    }
-    echo "</table>";
 
-    // Generate pagination links
-    echo "<div>";
-    if ($currentPage > 1) {
-      $previousPage = $currentPage - 1;
-      echo "<a href='friendadd.php?page={$previousPage}'>Previous</a>&nbsp;";
-    }
+  <div class="content">
+    <h2><?php echo $profileName ?>'s Add Friend Page</h2>
+    <h2>Total number of friends is <?php echo $numOfFriends ?></h2>
+    <!-- Table displaying the list and add friend button -->
+    <div class='addfriendtable'>
+      <?php
+      if (mysqli_num_rows($result) > 0) {
+        echo "<table class='table table-bordered table-info table-striped'>";
+        echo "<thead><tr><th>Profile Name</th><th>Mutual Friends</th><th>Action</th></tr></thead>";
+        while ($row = mysqli_fetch_assoc($result)) {
+          $friendId = $row["friend_id"];
+          $friendProfileName = $row["profile_name"];
+          // get mutual friends count
+          $sql2 = "SELECT friend_id, COUNT(*) AS mutual_friend_count
+                  FROM $table1 AS f JOIN $table2 AS mf
+                  ON (f.friend_id = mf.friend_id1 AND mf.friend_id2 = {$row['friend_id']})
+                  OR (f.friend_id = mf.friend_id2 AND mf.friend_id1 = {$row['friend_id']})
+                  WHERE f.friend_id != ?
+                  AND f.friend_id IN (
+                    SELECT friend_id1 FROM $table2 WHERE friend_id2 = $userId
+                    UNION SELECT friend_id2 FROM $table2 WHERE friend_id1 = $userId
+                  )";
+          $stmt = mysqli_prepare($conn, $sql2);
+          mysqli_stmt_bind_param($stmt, "i", $userId);
+          mysqli_stmt_execute($stmt);
+          $result2 = mysqli_stmt_get_result($stmt);
+          $row = mysqli_fetch_assoc($result2);
 
-    // page numbers for pagination
-    for ($i = 1; $i <= $totalPages; $i++) {
-      $activeClass = ($i == $currentPage) ? 'active' : '';
-      echo "<a href='friendadd.php?page={$i}' class='{$activeClass}'>$i</a>&nbsp;";
-    }
+          // Display the queried data
+          $mutualFriendCount = $row["mutual_friend_count"];
+          echo "<tbody>";
+          echo "<tr>";
+          echo "<td>{$friendProfileName}</td>";
+          echo "<td>{$mutualFriendCount} mutual friends</td>";
+          echo "<td>
+                  <form method='post' action='friendadd.php'>
+                    <input type='hidden' name='friendId' value='{$friendId}'>
+                    <input type='hidden' name='page' value='{$currentPage}'>
+                    <input class='btn btn-outline-info' type='submit' name='addfriend' value='Add as friend'>
+                  </form>
+                </td>";
+          echo "</tr>";
+          echo "</tbody>";
+        }
+        echo "</table>";
 
-    if ($currentPage < $totalPages) {
-      $nextPage = $currentPage + 1;
-      echo "<a href='friendadd.php?page={$nextPage}'>Next</a>";
-    }
-    echo "</div>";
-  } else {
-    echo "<p>No friend to add.</p>";
-  }
+        // Generate pagination links
+        echo "<div class='linkbtm'>";
+        if ($currentPage > 1) {
+          $previousPage = $currentPage - 1;
+          echo "<a class='pagenumber' href='friendadd.php?page={$previousPage}'>Previous</a>&nbsp;";
+        }
 
-  // Close the result and connection
-  mysqli_stmt_close($stmt);
-  mysqli_close($conn);
-  ?>
-  <p><a href="friendlist.php">Friend Lists</a></p>
-  <p><a href="logout.php">Log out</a></p>
+        // page numbers for pagination
+        for ($i = 1; $i <= $totalPages; $i++) {
+          $activeClass = ($i == $currentPage) ? 'active' : '';
+          echo "<a href='friendadd.php?page={$i}' class='{$activeClass} pagenumber'>$i</a>&nbsp;";
+        }
+
+        if ($currentPage < $totalPages) {
+          $nextPage = $currentPage + 1;
+          echo "<a class='pagenumber' href='friendadd.php?page={$nextPage}'>Next</a>";
+        }
+        echo "</div>";
+      } else {
+        echo "<p class='nofriend'>No friend to add.</p>";
+      }
+
+      // Close the result and connection
+      mysqli_stmt_close($stmt);
+      mysqli_close($conn);
+      ?>
+      <div class="friendslinks">
+        <p><a class="link" href="friendlist.php"><span>Friend Lists</span></a></p>
+        <br><br>
+        <p><a class="link" href="logout.php"><span>Log out</span></a></p>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
 </body>
 
 </html>

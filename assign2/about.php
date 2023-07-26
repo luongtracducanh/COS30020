@@ -8,29 +8,44 @@
   <link rel="stylesheet" href="style/style.css">
 </head>
 
-<body>
-  <h1>My Friends System<br>Assignment About Page</h1>
-  <ul>
-    <li>I have attempted and completed all tasks.</li>
-    <li>The special features that I have done in creating the site were:</li>
-    <ul>
-      <li></li>
+<body class="bg-image">
+  <div class="header">
+    <h1>My Friends System</h1>
+    <ul class="nav">
+      <li class="nav-link"><a href="index.php">Home</a></li>
+      <li class="nav-link"><a href="signup.php">Sign-Up</a></li>
+      <li class="nav-link"><a href="login.php">Login</a></li>
+      <li class="nav-link"><a href="about.php">About</a></li>
     </ul>
-    <li>I did not have trouble with any part</li>
-    <li>I would like to do ... better next time</li>
-    <li>The additional features that I added to the assignment were:</li>
+  </div>
+
+  <div class="about-text">
     <ul>
-      <li></li>
+      <li>I have attempted and completed all tasks.</li>
+      <li>The special features that I have done in creating the site were:</li>
+      <ul>
+        <li>SQL connection error checking and handling: Re-direct the user to an error page with the relevant error message.</li>
+      </ul>
+      <li>I had trouble with the mutual friend count in add friend page but after a couple of tries I could handle it.</li>
+      <li>I would like to build the program in a better structure next time, using OOP concepts for better scalability.</li>
+      <li>The additional features that I added to the assignment were:</li>
+      <ul>
+        <li>Styling and navigation using Bootstrap and additional CSS.</li>
+      </ul>
     </ul>
-  </ul>
-  <h3>Discussion response</h3>
-  <figure>
-    <img src="images/discussion.png" alt="Discussion response" class="my-image">
-    <figcaption>Figure 1: Discussion response that answered someone's thread in the unit's discussion board for Assignment 2</figcaption>
-  </figure>
-  <p><a href="friendlist.php">Friend List</a></p>
-  <p><a href="friendadd.php">Friend Add</a></p>
-  <p><a href="index.php">Home Page</a></p>
+    <h3>Discussion response</h3>
+    <figure>
+      <img style="width: 70%;" src="images/discussion.png" alt="Discussion response" class="my-image">
+      <figcaption>Figure 1: Discussion response that answered someone's thread in the unit's discussion board for Assignment 2</figcaption>
+    </figure>
+    <div class="friendslinks">
+      <p><a class="link" href="friendlist.php"><span> Friend List</span></a></p>
+      <br>
+      <p><a class="link" href="friendadd.php"><span> Friend Add </span></a></p>
+      <br>
+      <!-- <p><a class="link" href="index.php"><span> Home Page </span> </a></p> -->
+    </div>
+  </div>
 </body>
 
 </html>

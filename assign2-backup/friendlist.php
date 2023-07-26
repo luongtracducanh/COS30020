@@ -6,28 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Friends System</title>
   <link rel="stylesheet" href="style/style.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
 </head>
 
-<body class="bg-image">
-  <div " class=" header">
-    <h1>My Friends System</h1>
-    <div class="nav">
-      <ul>
-        <li class="nav-link"> <a href="friendadd.php"> Add friends </a></li>
-        <li class="nav-link"> <a href="logout.php"> Log out </a></li>
-      </ul>
-    </div>
-  </div>
+<body>
   <?php
   session_start();
-
-  // Check if the user is logged in using session email and loggedIn session variable
-  if (!isset($_SESSION["email"]) || !isset($_SESSION["loggedIn"])) {
-    // Redirect to the login page
-    header("Location: login.php");
-    exit();
-  }
 
   require_once("settings.php");
 
@@ -98,47 +81,37 @@
     exit();
   }
   ?>
-  <div class="content">
-    <h2><?php echo $profileName ?>'s Friend List Page</h2>
-    <h2>Total number of friends is <?php echo $numOfFriends ?></h2>
-    <!-- Table displaying friends and unfriend button -->
-    <div class='addfriendtable'>
-      <?php
-      // Check if any friends are found
-      if (mysqli_num_rows($result) > 0) {
-        echo "<table class='table table-bordered table-info table-striped'>";
-        echo "<thead><tr><th>Profile Name</th><th>Action</th></tr></thead>";
-        while ($row = mysqli_fetch_assoc($result)) {
-          $friendId = $row["friend_id"];
-          $friendProfileName = $row["profile_name"];
-          echo "<tbody>";
-          echo "<tr>";
-          echo "<td>{$friendProfileName}</td>";
-          echo "<td>
-                  <form method='post' action='friendlist.php'>
-                    <input type='hidden' name='friendId' value='{$friendId}'>
-                    <input class='btn btn-outline-danger' type='submit' name='unfriend' value='Unfriend'>
-                  </form>
-                </td>";
-          echo "</tr>";
-          echo "</tbody>";
-        }
-        echo "</table>";
-      } else {
-        echo "<p class='nofriend'>No friend found.</p>";
-      }
 
-      mysqli_stmt_close($stmt);
-      mysqli_close($conn);
-      ?>
+  <h1>My Friends System<br><?php echo $profileName ?>'s Friend List Page<br>Total number of friends is <?php echo $numOfFriends ?></h1>
+  <!-- Table displaying friends and unfriend button -->
+  <?php
+  // Check if any friends are found
+  if (mysqli_num_rows($result) > 0) {
+    echo "<table border=1>";
+    echo "<tr><th>Profile Name</th><th>Action</th></tr>";
+    while ($row = mysqli_fetch_assoc($result)) {
+      $friendId = $row["friend_id"];
+      $friendProfileName = $row["profile_name"];
+      echo "<tr>";
+      echo "<td>{$friendProfileName}</td>";
+      echo "<td>
+      <form method='post' action='friendlist.php'>
+        <input type='hidden' name='friendId' value='{$friendId}'>
+        <input type='submit' name='unfriend' value='Unfriend'>
+      </form>
+      </td>";
+      echo "</tr>";
+    }
+    echo "</table>";
+  } else {
+    echo "<p>No friend found.</p>";
+  }
 
-      <div class="friendslinks">
-        <p><a class="link" href="friendadd.php"><span>Add Friends</span></a></p>
-        <br>
-        <p><a class="link" href="logout.php"><span>Log out</span></a></p>
-      </div>
-    </div>
-  </div>
+  mysqli_stmt_close($stmt);
+  mysqli_close($conn);
+  ?>
+  <p><a href="friendadd.php">Add Friends</a></p>
+  <p><a href="logout.php">Log out</a></p>
 </body>
 
 </html>
