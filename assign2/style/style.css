@@ -292,3 +292,8 @@
   font-weight: bold;
   color: #60b3f7;
 }
+
+.errorpage {
+  padding: 0;
+  color: rgb(241, 176, 79);
+}
