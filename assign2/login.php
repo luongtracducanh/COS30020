@@ -54,8 +54,8 @@
         </div>
         <div class="col-75">
           <p><input name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
-
             <?php
+            // sanitize input and validate email
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               $inputEmail = validateField("Email", sanitizeInput($_POST['email']));
             }
@@ -71,6 +71,7 @@
         <div class="col-75">
           <p><input type="password" name="password">
             <?php
+            // sanitize input and validate password
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               $inputPassword = validateField("Password", sanitizeInput($_POST['password']));
             }
@@ -115,7 +116,6 @@
       </p>
 
     </form>
-    <!-- <p><a class="link" href="index.php"><span>Home</span></a></p> -->
   </div>
 </body>
 

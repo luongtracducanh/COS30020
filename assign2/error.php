@@ -13,9 +13,10 @@
   <?php
   session_start();
   // check if error message is set
-  if (isset($_SESSION["errMsg"])) {
+  if (isset($_SESSION["errMsg"]) && isset($_SESSION["errNo"])) {
     $errMsg = $_SESSION["errMsg"];
-    echo "<p><b>Error encountered:</b> <span style=color:red>$errMsg.</span></p>";
+    $errNo = $_SESSION["errNo"];
+    echo "<p><b>Error encountered:</b> <span style=color:red>$errMsg (Code: $errNo).</span></p>";
   } else {
     echo "<p>No error encountered. Redirecting to the home page...</p>";
   }

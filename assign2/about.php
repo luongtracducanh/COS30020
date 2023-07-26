@@ -24,7 +24,7 @@
       <li>I have attempted and completed all tasks.</li>
       <li>The special features that I have done in creating the site were:</li>
       <ul>
-        <li>SQL connection error checking and handling: Re-direct the user to an error page with the relevant error message.</li>
+        <li>MySQL connection error checking and handling: Re-direct the user to an error page with the relevant error message.</li>
       </ul>
       <li>I had trouble with the mutual friend count in add friend page but after a couple of tries I could handle it.</li>
       <li>I would like to build the program in a better structure next time, using OOP concepts for better scalability.</li>
@@ -43,7 +43,6 @@
       <br>
       <p><a class="link" href="friendadd.php"><span> Friend Add </span></a></p>
       <br>
-      <!-- <p><a class="link" href="index.php"><span> Home Page </span> </a></p> -->
     </div>
   </div>
 </body>
