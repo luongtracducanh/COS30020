@@ -46,7 +46,7 @@
   </div>
 
   <div class="login-text">
-    <h2> LOGIN </h2>
+    <h2>Log in page</h2>
     <form method="post" action="login.php">
       <div class="row">
         <div class="col-25">

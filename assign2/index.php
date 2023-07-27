@@ -20,6 +20,7 @@
   </div>
 
   <div class="bg-text">
+    <h1>Assignment Home Page</h1>
     <p>Name: Trac Duc Anh Luong</p>
     <p> Student ID: 103488117 </p>
     <p>Email: <a class="email" href="mailto:103488117@student.swin.edu.au">103488117@student.swin.edu.au</a></p>

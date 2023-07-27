@@ -79,7 +79,7 @@
   </div>
 
   <div class="login-text">
-    <h2>REGISTRATION </h2>
+    <h2>Registration Page</h2>
     <form method="post" action="signup.php">
       <div class="row">
         <div class="col-25">

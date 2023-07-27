@@ -1,9 +1,9 @@
 <?php
 // localhost
-$host = "localhost";
-$user = "ducanh";
-$pswd = "ducanh2003";
-$dbnm = "AWD";
+// $host = "localhost";
+// $user = "ducanh";
+// $pswd = "ducanh2003";
+// $dbnm = "AWD";
 
 // swin server
 // $host = "feenix-mariadb.swin.edu.au";
@@ -12,10 +12,10 @@ $dbnm = "AWD";
 // $dbnm = "s103488117_db";
 
 // 000webhost server
-// $host = "localhost";
-// $user = "id21037306_ducanh";
-// $pswd = "Tomato1309*";
-// $dbnm = "id21037306_awd";
+$host = "localhost";
+$user = "id21037306_ducanh";
+$pswd = "Tomato1309*";
+$dbnm = "id21037306_awd";
 
 // tabels used
 $table1 = "friends";

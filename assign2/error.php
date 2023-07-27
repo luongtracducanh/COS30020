@@ -13,7 +13,7 @@
     <h1>My Friends System</h1>
   </div>
   <div class="login-text">
-    <h2 style="font-size: 80px; margin: 0">Error</h2>
+    <h1 style="font-size: 80px; margin: 0">Error Page</h1>
     <?php
     session_start();
     // check if error message is set

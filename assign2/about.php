@@ -20,6 +20,7 @@
   </div>
 
   <div class="about-text">
+    <h1 style="text-align: center;">About Page</h1>
     <ul>
       <li>I have attempted and completed all tasks.</li>
       <li>The special features that I have done in creating the site were:</li>

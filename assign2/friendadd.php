@@ -132,9 +132,7 @@
   mysqli_stmt_bind_param($stmt, "iiiii", $userId, $userId, $userId, $offset, $limit);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
-
   ?>
-
 
   <div class="content">
     <h2><?php echo $profileName ?>'s Add Friend Page</h2>
