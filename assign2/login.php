@@ -115,7 +115,6 @@
         <!-- clear button as a link to refresh the page since the html clear button cant remove default values -->
         <a href="login.php" class="btnclear">Clear</a>
       </p>
-
     </form>
   </div>
 </body>

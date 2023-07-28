@@ -207,8 +207,7 @@
       mysqli_close($conn);
       ?>
       <div class="friendslinks">
-        <p><a class="link" href="friendlist.php"><span>Friend Lists</span></a></p>
-        <br><br>
+        <p><a class="link" href="friendlist.php"><span>Friend Lists</span></a></p><br>
         <p><a class="link" href="logout.php"><span>Log out</span></a></p>
       </div>
     </div>

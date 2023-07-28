@@ -166,9 +166,6 @@
         <a href="signup.php" class="btnclear">Clear</a>
       </p>
     </form>
-
-
-    <!-- <p><a class="link" href="index.php"><span>Home</span></a></p> -->
   </div>
 </body>
 

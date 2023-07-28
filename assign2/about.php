@@ -25,10 +25,10 @@
       <li>I have attempted and completed all tasks.</li>
       <li>The special features that I have done in creating the site were:</li>
       <ul>
-        <li>MySQL connection error checking and handling: Re-direct the user to an error page with the relevant error message.</li>
+        <li>MySQL connection error checking and handling: Re-direct the user to an error page with the relevant error code and message.</li>
       </ul>
-      <li>I had trouble with the mutual friend count in add friend page but after a couple of tries I could handle it.</li>
-      <li>I would like to build the program in a better structure next time, using OOP concepts for better scalability.</li>
+      <li>I had had trouble with the mutual friend count in the add friend page but after a couple of tries I could handle it.</li>
+      <li>I would like to build the program in a better structure next time, using OOP concepts for better maintenance and scalability.</li>
       <li>The additional features that I added to the assignment were:</li>
       <ul>
         <li>Styling and navigation using Bootstrap and additional CSS.</li>
@@ -40,9 +40,9 @@
       <figcaption>Figure 1: Discussion response that answered someone's thread in the unit's discussion board for Assignment 2</figcaption>
     </figure>
     <div class="friendslinks">
-      <p><a class="link" href="friendlist.php"><span> Friend List</span></a></p>
+      <p><a class="link" href="friendlist.php"><span>Friend List</span></a></p>
       <br>
-      <p><a class="link" href="friendadd.php"><span> Friend Add </span></a></p>
+      <p><a class="link" href="friendadd.php"><span>Friend Add</span></a></p>
       <br>
     </div>
   </div>
