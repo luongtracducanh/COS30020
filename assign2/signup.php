@@ -79,7 +79,7 @@
   </div>
 
   <div class="login-text">
-    <h2>Registration Page</h2>
+    <h1>Registration Page</h1>
     <form method="post" action="signup.php">
       <div class="row">
         <div class="col-25">
@@ -162,7 +162,7 @@
       ?>
 
       <p><input class="button-32" type="submit" value="Register">
-        <input class="btnclear" type="reset" value="Clear">
+        <a href="signup.php" class="btnclear">Clear</a>
       </p>
     </form>
 

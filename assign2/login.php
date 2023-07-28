@@ -46,7 +46,7 @@
   </div>
 
   <div class="login-text">
-    <h2>Log in page</h2>
+    <h1>Log in page</h1>
     <form method="post" action="login.php">
       <div class="row">
         <div class="col-25">
@@ -112,7 +112,7 @@
       ?>
 
       <p><input class="button-32" type="submit" value="Log in">
-        <input class="btnclear" type="reset" value="Clear">
+        <a href="login.php" class="btnclear">Clear</a>
       </p>
 
     </form>

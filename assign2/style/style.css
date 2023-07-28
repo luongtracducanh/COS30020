@@ -257,6 +257,7 @@
 }
 
 .btnclear {
+  text-decoration: none;
   margin: 10px;
   background-color: #8bc6f6;
   border-radius: 12px;
