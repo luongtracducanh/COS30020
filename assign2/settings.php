@@ -2,10 +2,16 @@
 mysqli_report(MYSQLI_REPORT_OFF);
 
 // swin server
-$host = "feenix-mariadb.swin.edu.au";
-$user = "s103488117";
-$pswd = "181203";
-$dbnm = "s103488117_db";
+// $host = "feenix-mariadb.swin.edu.au";
+// $user = "s103488117";
+// $pswd = "181203";
+// $dbnm = "s103488117_db";
+
+// localhost
+$host = "localhost";
+$user = "ducanh";
+$pswd = "ducanh2003";
+$dbnm = "AWD";
 
 // tabels used
 $table1 = "friends";
