@@ -1,2 +1,5 @@
 # zip files
 *.zip
+# receipt files
+receipt1.pdf
+receipt2.pdf
