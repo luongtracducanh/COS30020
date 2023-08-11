@@ -3,9 +3,9 @@ mysqli_report(MYSQLI_REPORT_OFF);
 
 // swin server
 // $host = "feenix-mariadb.swin.edu.au";
-// $user = "s103488117";
-// $pswd = "181203";
-// $dbnm = "s103488117_db";
+// $user = "";
+// $pswd = "";
+// $dbnm = "";
 
 // localhost
 $host = "localhost";
@@ -17,7 +17,7 @@ $dbnm = "AWD";
 $table1 = "friends";
 $table2 = "myfriends";
 
-// Connect to database on PHP 5.4.16
+// Connect to database
 $conn = @mysqli_connect($host, $user, $pswd, $dbnm);
 if (!$conn) {
   // Get error message
