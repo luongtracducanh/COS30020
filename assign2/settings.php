@@ -9,9 +9,9 @@ mysqli_report(MYSQLI_REPORT_OFF);
 
 // localhost
 $host = "localhost";
-$user = "ducanh";
-$pswd = "ducanh2003";
-$dbnm = "AWD";
+$user = "";
+$pswd = "";
+$dbnm = "";
 
 // tabels used
 $table1 = "friends";
