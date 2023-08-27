@@ -52,9 +52,6 @@
     </div>
 
     <div class="push"></div>
-    <!-- <p><a href="postjobform.php">Post a job vacancy</a></p>
-  <p><a href="searchjobform.php">Search for a job vacancy</a></p>
-  <p><a href="about.php">About this assignment</a></p> -->
   </div>
 
   <footer class="footer">

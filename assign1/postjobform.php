@@ -45,7 +45,6 @@
         </div>
         <div class="col-75">
           <p> <textarea id="des" name="des"></textarea></p>
-          <!-- <p class="note"><i>Note: The description criteria will be displayed in a bullet point list.<br>Simply enter each criteria on a new line in the text area, it will be automatically created the list.</i></p> -->
         </div>
       </div>
 

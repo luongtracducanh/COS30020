@@ -67,7 +67,6 @@
               // check if the job vacancy matches the search criteria
               if (
                 (strpos(replaceVnese(strtolower($jobTitle)), replaceVnese(strtolower(trim($title)))) !== false) &&
-                // (strpos(strtolower(trim($jobTitle)), strtolower($title)) !== false) &&
                 (empty($position) || strtolower(trim($jobPosition)) === strtolower($position)) &&
                 (empty($contract) || strtolower(trim($jobContract)) === strtolower($contract)) &&
                 (empty($app) || array_intersect(array_map('strtolower', $app), array_map('strtolower', $jobApplication))) &&
@@ -103,7 +102,6 @@
               foreach ($jobVacancies as $job) {
                 $jobTitle = $job['title'];
                 $description = $job['description'];
-                // $descriptionList = explode("[NEWLINE]", $description);
                 $descriptionList = str_replace("[NEWLINE]", "<br>", $description);
                 $closingDate = $job['closingDate'];
                 $position = $job['position'];
@@ -115,11 +113,6 @@
                 echo "<p class='jobtitle'> Job Title: $jobTitle</p>";
                 echo "<span class='list'>Description:</span>";
                 echo "<p>$descriptionList</p>";
-                // echo "<ul>";
-                // foreach ($descriptionList as $item) {
-                //   echo "<li>" . htmlspecialchars($item) . "</li>";
-                // }
-                // echo "</ul>";
                 echo "<p><span class='list'>Closing Date:</span> {$closingDate->format('d/m/y')}</p>";
                 echo "<p><span class='list'>Position:</span> $position</p>";
                 echo "<p><span class='list'>Application by:</span> $application</p>";
