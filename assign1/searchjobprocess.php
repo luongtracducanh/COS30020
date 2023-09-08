@@ -48,7 +48,7 @@
 
         $file = '../../data/jobposts/jobs.txt';
         if (!file_exists($file)) {
-          echo "<p class='process'>No up-to-date job vacancy found.</p>";
+          echo "<p class='process'>File $file does not exist.</p>";
           exit;
         } else {
           $handle = fopen($file, 'r');
