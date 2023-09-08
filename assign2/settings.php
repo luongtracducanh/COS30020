@@ -11,7 +11,7 @@ mysqli_report(MYSQLI_REPORT_OFF);
 $host = "localhost";
 $user = "root";
 $pswd = "";
-$dbnm = "AWD";
+$dbnm = "test";
 
 // tabels used
 $table1 = "friends";
